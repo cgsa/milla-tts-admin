@@ -1,0 +1,3 @@
+ALTER TABLE db_millas_tts.destinos ADD ciudad varchar(100) NOT NULL ;
+ALTER TABLE db_millas_tts.destinos CHANGE ciudad ciudad varchar(100) NOT NULL AFTER nombre ;
+
