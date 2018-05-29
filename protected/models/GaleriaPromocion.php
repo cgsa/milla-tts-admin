@@ -1,34 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "promociones".
+ * This is the model class for table "galeria_promocion".
  *
- * The followings are the available columns in table 'promociones':
+ * The followings are the available columns in table 'galeria_promocion':
  * @property integer $id
- * @property integer $id_lugar
- * @property string $cant_millas
- * @property string $cant_cuotas
- * @property string $fecha_vencimiento
- * @property integer $cant_pasajes
- * @property string $codigo_barra
+ * @property integer $id_promocion
  * @property integer $id_imagen
- * @property integer $visibilidad
- * @property integer $status
- * @property string $fecha_fin
- * @property string $fecha_registro
+ * @property integer $es_principal
  *
  * The followings are the available model relations:
- * @property Destinos $idLugar
  * @property Imagenes $idImagen
+ * @property Promociones $idPromocion
  */
-class Promociones extends CActiveRecord
+class GaleriaPromocion extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'promociones';
+		return 'galeria_promocion';
 	}
 
 	/**
@@ -39,15 +31,11 @@ class Promociones extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_lugar, cant_millas, cant_cuotas, fecha_vencimiento', 'required'),
-			array('id_lugar, cant_pasajes, id_imagen, visibilidad, status', 'numerical', 'integerOnly'=>true),
-			array('cant_millas, cant_cuotas', 'length', 'max'=>20),
-			array('codigo_barra', 'length', 'max'=>100),
-		    array('fecha_fin, fecha_registro', 'safe'),
-		    array('fecha_registro', 'default','value'=>new CDbExpression('NOW()'),'on'=>'insert'),
+			array('id_promocion, id_imagen', 'required'),
+			array('id_promocion, id_imagen, es_principal', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_lugar, cant_millas, cant_cuotas, fecha_vencimiento, cant_pasajes, codigo_barra, id_imagen, visibilidad, status, fecha_fin, fecha_registro', 'safe', 'on'=>'search'),
+			array('id, id_promocion, id_imagen, es_principal', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,8 +47,8 @@ class Promociones extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idLugar' => array(self::BELONGS_TO, 'Destinos', 'id_lugar'),
 			'idImagen' => array(self::BELONGS_TO, 'Imagenes', 'id_imagen'),
+			'idPromocion' => array(self::BELONGS_TO, 'Promociones', 'id_promocion'),
 		);
 	}
 
@@ -71,17 +59,9 @@ class Promociones extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'id_lugar' => 'Id Lugar',
-			'cant_millas' => 'Cant Millas',
-			'cant_cuotas' => 'Cant Cuotas',
-			'fecha_vencimiento' => 'Fecha Vencimiento',
-			'cant_pasajes' => 'Cant Pasajes',
-			'codigo_barra' => 'Codigo Barra',
+			'id_promocion' => 'Id Promocion',
 			'id_imagen' => 'Id Imagen',
-			'visibilidad' => 'Visibilidad',
-			'status' => 'Status',
-			'fecha_fin' => 'Fecha Fin',
-			'fecha_registro' => 'Fecha Registro',
+			'es_principal' => 'Es Principal',
 		);
 	}
 
@@ -104,17 +84,9 @@ class Promociones extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('id_lugar',$this->id_lugar);
-		$criteria->compare('cant_millas',$this->cant_millas,true);
-		$criteria->compare('cant_cuotas',$this->cant_cuotas,true);
-		$criteria->compare('fecha_vencimiento',$this->fecha_vencimiento,true);
-		$criteria->compare('cant_pasajes',$this->cant_pasajes);
-		$criteria->compare('codigo_barra',$this->codigo_barra,true);
+		$criteria->compare('id_promocion',$this->id_promocion);
 		$criteria->compare('id_imagen',$this->id_imagen);
-		$criteria->compare('visibilidad',$this->visibilidad);
-		$criteria->compare('status',$this->status);
-		$criteria->compare('fecha_fin',$this->fecha_fin,true);
-		$criteria->compare('fecha_registro',$this->fecha_registro,true);
+		$criteria->compare('es_principal',$this->es_principal);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -125,7 +97,7 @@ class Promociones extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Promociones the static model class
+	 * @return GaleriaPromocion the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

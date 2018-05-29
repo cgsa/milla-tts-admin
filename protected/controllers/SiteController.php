@@ -64,6 +64,9 @@ class SiteController extends Controller
 	    
 	    if(Yii::app()->user->isSuperAdmin)
 	    {
+	        Yii::app()->user->getField('nombreuser');
+	        Yii::app()->user->getField('apellidouser');
+	        Yii::app()->user->setState('usersistema', Yii::app()->user->getField('nombreuser'));
 	        $this->redirect(Yii::app()->createUrl('/PanelAdministrativo/index'));
 	        
 	    }

@@ -3,7 +3,7 @@
 /* @var $model Promociones */
 
 
-Yii::app()->clientScript->registerScript('destino', "
+Yii::app()->clientScript->registerScript('promocion', "
     
     
     

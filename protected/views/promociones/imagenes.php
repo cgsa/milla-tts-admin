@@ -8,7 +8,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/uploadi
 $timestamp = time();
 $clave = md5('unique_salt' .$timestamp);
 
-Yii::app()->clientScript->registerScript('search', "
+Yii::app()->clientScript->registerScript('promociones', "
     
 $(function() {
 	$('#file_upload').uploadifive({
@@ -20,7 +20,7 @@ $(function() {
 							   'token'     : '".$clave."'
 		                     },
 		'queueID'          : 'queue',
-		'uploadScript'     : '".Yii::app()->createUrl('Destinos/Upload',array('id'=>$id))."',
+		'uploadScript'     : '".Yii::app()->createUrl('Promociones/Upload',array('id'=>$id))."',
 		'onUploadComplete' : function(file, data)
                              {
                                 location.reload();
@@ -33,12 +33,12 @@ $('.b_formulario').click(function()
 {
     var action = $(this).attr('data-action');
     var id = $(this).attr('data-id');
-    var destino = $(this).attr('data-destino');
-    var _param = {'action':action,'id':id,'destino':destino};
+    var promocion = $(this).attr('data-promo');
+    var _param = {'action':action,'id':id,'promocion':promocion};
     
     $.ajax(
     {
-        url:   '".Yii::app()->createUrl('Destinos/Formulario')."',
+        url:   '".Yii::app()->createUrl('Promociones/Formulario')."',
         type:  'POST',
         data:  _param,
         dataType: 'JSON',
@@ -69,12 +69,12 @@ $('body').delegate('.btn-operaciones','click',function()
     
     var action = $(this).attr('data-action');
     var id = $(this).attr('data-id');
-    var destino = $(this).attr('data-destino');
-    var _param = {'action':action,'id':id,'destino':destino};
+    var promocion = $(this).attr('data-promo');
+    var _param = {'action':action,'id':id,'promocion':promocion};
     
     $.ajax(
     {
-        url:        '".Yii::app()->createUrl('Destinos/Registrar')."',
+        url:        '".Yii::app()->createUrl('Promociones/Registrar')."',
         type:       'POST',
         data:       _param,
         dataType:   'JSON',
@@ -106,9 +106,9 @@ $('body').delegate('.btn-procesar-datos','click',function()
 {    
     var action = $(this).attr('data-action');
     var id = $(this).attr('data-id');
-    var destino = $(this).attr('data-destino');
+    var promocion = $(this).attr('data-promo');
     var _url = '".Yii::app()->createUrl('Imagenes/Registrar')."';
-    var _param = {'action':action,'id':id,'destino':destino};
+    var _param = {'action':action,'id':id,'promocion':promocion};
     
     enviarDatos( _param, _url );
     
@@ -118,7 +118,7 @@ $('body').delegate('.btn-procesar-datos','click',function()
 
 $('body').delegate('.btn-procesar-formulario','click',function()
 {    
-    var _url = '".Yii::app()->createUrl('Destinos/Registrar')."';
+    var _url = '".Yii::app()->createUrl('Promociones/Registrar')."';
     var _param = $('#formulario-form').serialize();
     
     enviarDatos( _param, _url );
@@ -214,21 +214,21 @@ $baseUrl = Yii::app()->request->baseUrl;
             		<?php               	
                   	$criteria=new CDbCriteria;
                   	$criteria->join = "LEFT JOIN imagenes i ON t.id_imagen = i.id";
-                  	$criteria->condition = "t.id_destino = ".$id;
+                  	$criteria->condition = "t.id_promocion = ".$id;
                   	$criteria->order = "t.id DESC";          	
                   	
                   	$rows = $model->findAll($criteria);
                   	foreach ($rows as $key =>$value): 
                   	?>
-                      	<div class="col-md-3 text-center" >
+                      	<div class="col-md-3 text-center m-b-10" >
                       		<div class="col-md-12" style="height: 150px;">
                       			<img width="60%" src="<?php echo $baseUrl."/upload/img/".$value->idImagen->path;?>" />
                       		</div>
                       		<div class="col-md-12">
-                      			<a data-destino="<?php echo $id;?>" data-action="B" data-id="<?php echo $value->idImagen->id;?>" title="Crear Banner" class="b_formulario" style="cursor: pointer;" >
+                      			<a data-promo="<?php echo $id;?>" data-action="B" data-id="<?php echo $value->idImagen->id;?>" title="Crear Banner" class="b_formulario" style="cursor: pointer;" >
                       				<i class="fa fa-bars"></i>
                       			</a>
-                      			<a data-destino="<?php echo $id;?>" data-action="P" data-id="<?php echo $value->id;?>" title="Marcar como principal" class="btn-operaciones" style="cursor: pointer;" >
+                      			<a data-promo="<?php echo $id;?>" data-action="P" data-id="<?php echo $value->id;?>" title="Marcar como principal" class="btn-operaciones" style="cursor: pointer;" >
                       				<?php 
                       				if($value->es_principal == 0):
                       				?>

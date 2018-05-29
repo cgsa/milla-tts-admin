@@ -21,7 +21,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
         <input type="hidden" name="action" value="<?php echo $action;?>"> 
         <input type="hidden" name="Banner[id_imagen]" value="<?php echo $id;?>"> 
-        <input type="hidden" name="id" value="<?php echo $destino;?>">       
+        <input type="hidden" name="id" value="<?php echo $promocion;?>">       
       </div>
       <div class="modal-body" >  
       	 <div class="row">

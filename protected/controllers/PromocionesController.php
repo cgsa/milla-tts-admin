@@ -133,11 +133,123 @@ class PromocionesController extends Controller
 	 */
 	public function actionImagenes($id)
 	{
-	    $model = new GaleriaDestino();
+	    $model = new GaleriaPromocion;
 	    $this->render('imagenes',array(
 	        'model'=>$model,
 	        'id'=>$id,
 	    ));
+	}
+	
+	
+	/**
+	 * View dialogo.
+	 */
+	public function actionFormulario()
+	{
+	    try
+	    {
+	        if(isset($_POST))
+	        {
+	            switch ($_POST['action'])
+	            {
+	                case 'B':
+	                    $model = new Banner;
+	                    $result['status'] = true;
+	                    $result['formulario'] = $this->renderPartial('_banner', array(
+	                        'model'=>$model,
+	                        'action'=>'B',
+	                        'id'=>$_POST['id'],
+	                        'promocion'=>$_POST['promocion'],
+	                    ),true);
+	                    break;
+	            }
+	        }
+	        else
+	        {
+	            throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	        }
+	        
+	    }
+	    catch (Exception $e)
+	    {
+	        $result['status'] = true;
+	        $result['mensaje'] = $e->getMessage();
+	    }
+	    
+	    die(json_encode($result));
+	}
+	
+	/**
+	 * View dialogo.
+	 */
+	public function actionRegistrar()
+	{
+	    try
+	    {
+	        $result = "";
+	        if( isset($_POST))
+	        {
+	            switch ($_POST['action'])
+	            {
+	                case 'P':
+	                    
+	                    if( isset($_POST['id']) )
+	                    {
+	                        $connection=Yii::app()->db;
+	                        $sql="UPDATE galeria_promocion SET es_principal = 0 WHERE id_promocion =:promocion ";
+	                        $command=$connection->createCommand($sql);
+	                        $command->bindParam(":promocion",$_POST['promocion'],PDO::PARAM_INT);
+	                        $command->execute();
+	                        
+	                        $model = GaleriaPromocion::model()->findByPk($_POST['id']);
+	                        $model->es_principal = 1;
+	                        $model->save();
+	                        
+	                        $result['status'] = true;
+	                        $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	                    }
+	                    else
+	                    {
+	                        throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	                    }
+	                    break;
+	                case 'B':
+	                    
+	                    if( isset($_POST['Banner']) )
+	                    {
+	                        $model = new Banner;
+	                        $model->attributes = $_POST['Banner'];
+	                        $json['contralador'] = "Promociones";
+	                        $json['value'] = $_POST['id'];
+	                        $model->data_json = json_encode($json);
+	                        
+	                        if($model->save())
+	                        {
+	                            $result['status'] = true;
+	                            $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	                        }
+	                        
+	                    }
+	                    else
+	                    {
+	                        throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	                    }
+	                    break;
+	            }
+	        }
+	        else
+	        {
+	            throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	        }
+	        
+	    }
+	    catch (Exception $e)
+	    {
+	        $result['status'] = true;
+	        $result['mensaje'] = $e->getMessage();
+	    }
+	    
+	    die(json_encode($result));
 	}
 	
 	
@@ -159,8 +271,8 @@ class PromocionesController extends Controller
 	            
 	            if($model->save())
 	            {
-	                $destino = new GaleriaDestino;
-	                $destino->id_destino = $id;
+	                $destino = new GaleriaPromocion;
+	                $destino->id_promocion = $id;
 	                $destino->id_imagen = $model->id;
 	                $destino->save();
 	                echo 1;

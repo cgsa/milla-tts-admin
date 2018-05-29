@@ -126,6 +126,26 @@ class ImagenesController extends Controller
                             throw new Exception('Se ha producido una error al intentar realizar la acción.');
                         }
                     break;
+	                case 'E':
+	                    $model = $this->loadModel($_POST['id']);
+	                    //var_dump($model);die;
+	                    $file = Yii::app()->basePath .'/../upload/img/'.$model->path;
+	                    if( $model->delete() )
+	                    {
+	                        if( file_exists($file) )
+	                        {
+	                            unlink($file);
+	                        }
+	                        
+	                        $result['status'] = true;
+	                        $result['mensaje'] = 'La imagen se elimino de manera satisfactoria.';
+	                    }
+	                    else
+	                    {
+	                        throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	                    }
+	                    
+	                break;
 	                case 'G':
 	                    $model = new Galerias;
 	                    $model->attributes=$_POST['Galerias'];
@@ -162,10 +182,11 @@ class ImagenesController extends Controller
 	    }
 	    catch (Exception $e)
 	    {
-	        $result['status'] = true;
+	        $result['status'] = false;
 	        $result['mensaje'] = $e->getMessage();
 	    }
 	    
+	    header('Content-Type: application/json');
 	    die(json_encode($result));
 	}
 	

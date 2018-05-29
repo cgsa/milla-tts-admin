@@ -117,8 +117,8 @@ function desbloquePantalla()
                         	        'changeYear' => true,           // can change year
                         	        'changeMonth' => true,          // can change month
                         	        //'yearRange' => '2000:2099',     // range of year
-                        	        //'minDate' => '2000-01-01',      // minimum date
-                        	        'maxDate' => '+1d',      // maximum date
+                        	        'minDate' => '+1d',      // minimum date
+                        	        //'maxDate' => '+1d',      // maximum date
                         	        'showButtonPanel' => true,      // show button panel
                         	    ),
                         	    'htmlOptions' => array(
@@ -146,8 +146,8 @@ function desbloquePantalla()
                         	        'changeYear' => true,           // can change year
                         	        'changeMonth' => true,          // can change month
                         	        //'yearRange' => '2000:2099',     // range of year
-                        	        //'minDate' => '2000-01-01',      // minimum date
-                        	        'maxDate' => '+1d',      // maximum date
+                        	        'minDate' => '+1d',      // minimum date
+                        	        //'maxDate' => '+1d',      // maximum date
                         	        'showButtonPanel' => true,      // show button panel
                         	    ),
                         	    'htmlOptions' => array(
@@ -169,7 +169,19 @@ function desbloquePantalla()
                     		?>
                     		<?php echo $form->error($model,'status'); ?>
                     	</div>
-                    </div>   
+                    </div> 
+                    <?php 
+                    if(!$model->isNewRecord):
+                    ?>
+                    <div class="form-group m-b-5">
+                    	<div class="col-sm-4"></div>
+                    	<div class="col-sm-8">
+                    		<img width="60%" src="<?php echo $baseUrl."/upload/img/".$model->idImagen->path;?>" />
+                    	</div>
+                    </div>
+                    <?php 
+                    endif;
+                    ?>  
                     <div class="form-group m-b-0">
                         <div class="col-sm-offset-3 col-sm-9">
                         	<a href="<?php echo Yii::app()->createUrl("/Promociones/admin");?>"  class="btn btn-danger" >Volver</a>

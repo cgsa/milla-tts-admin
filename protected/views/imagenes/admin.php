@@ -118,6 +118,56 @@ $('.btn-dialogo-galeria').click(function()
 
 
 
+$('body').delegate('.bt-operaciones', 'click', function()
+{
+    var action = $(this).attr('data-action');
+    var id = $(this).attr('data-id');
+    var _param = {'action':action, 'id':id};   
+    
+    swal({
+        title: 'Está seguro?',
+        text: 'De querer realizar esta operación!',
+        type: 'warning',
+        confirmButtonClass: 'btn-warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        closeOnConfirm: true
+    }, function () 
+    {
+        bloqueoPantalla();
+        $.ajax(
+        {
+            url:        '".Yii::app()->createUrl('Imagenes/Registrar')."',
+            type:       'POST',
+            data:       _param,
+            dataType:   'JSON',
+            success:    function(_res)
+            {
+                desbloquePantalla();
+                if(_res.status)
+                {                   
+                    location.reload();
+                }
+                else
+                {
+                    swal('No se ha podido completar la acción');
+                }
+            },
+            error: function(_error)
+            {
+                desbloquePantalla();
+                swal( 'Se produjó un error en el procesamiento los datos.' );
+            }
+    
+        }); 
+
+    });
+    
+    return false;
+    
+});
+
 
 
 $('body').delegate('.btn-procesar-datos','click',function()
@@ -126,6 +176,16 @@ $('body').delegate('.btn-procesar-datos','click',function()
     var param = $('#imagenes-form').serialize();  
     bloqueoPantalla();
     
+    enviarParam(param);
+
+    return false;
+});
+
+
+
+function enviarParam(param)
+{
+
     $.ajax(
     {
         url:        '".Yii::app()->createUrl('Imagenes/Registrar')."',
@@ -150,12 +210,11 @@ $('body').delegate('.btn-procesar-datos','click',function()
             desbloquePantalla();
             swal( 'Se produjó un error en el procesamiento los datos.' );
         }
+
     }); 
 
     return false;
-});
-
-
+}
 
 
 function bloqueoPantalla()
@@ -206,9 +265,6 @@ $baseUrl = Yii::app()->request->baseUrl;
                             	<div class="col-xs-6 col-sm-5 m-b-30">
                             		<input id="file_upload" name="file_upload" type="file" multiple="true">                            		
                             	</div>
-                            	<div class="col-xs-6 col-sm-2 m-b-30">
-                            		<button type="button" data-toggle="tooltip" data-action="G" class="btn btn-default waves-effect btn-dialogo-galeria">Crear Galeria</button>
-                            	</div>
                             	<div class="col-xs-6 col-sm-5 m-b-30">
                             		<div id="queue"></div>
                             	</div>   	
@@ -225,13 +281,14 @@ $baseUrl = Yii::app()->request->baseUrl;
                   	$rows = $model->findAll($criteria);
                   	foreach ($rows as $key =>$value): 
                   	?>
-                      	<div class="col-md-3 text-center" >
+                      	<div class="col-md-3 text-center m-b-10" >
                       		<div class="col-md-12" style="height: 150px;">
                       			<img width="60%" src="<?php echo $baseUrl."/upload/img/".$value->path;?>" />
                       		</div>
                       		<div class="col-md-12">
                       			<input data-id="<?php echo $value->id;?>" type="checkbox" name="chk_imagenes[]" class="chk_imagenes" />
-                      			<a data-id="<?php echo $value->id;?>" class="cls_nombrar" style="cursor: pointer;" ><i class="fa fa-bars"></i></a>                      			
+                      			<a data-id="<?php echo $value->id;?>" class="cls_nombrar" style="cursor: pointer;" ><i class="fa fa-bars"></i></a>
+                      			<a data-id="<?php echo $value->id;?>" class="bt-operaciones" data-action="E" style="cursor: pointer;" ><i class="fa fa-trash"></i></a>                      			
                       		</div>
                         </div>
     				<?php 				

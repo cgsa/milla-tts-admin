@@ -1,7 +1,13 @@
 <?php
 /* @var $this DestinosController */
 /* @var $model Destinos */
-
+Yii::app()->clientScript->registerScript('destino', "
+    
+    
+    
+    $('#datatable').dataTable();
+    
+");
 ?>
 
 <!-- Start Row -->  

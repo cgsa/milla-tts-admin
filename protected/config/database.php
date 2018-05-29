@@ -8,7 +8,7 @@ return array(
     'connectionString' => 'mysql:host=localhost;dbname=db_millas_tts',
     'emulatePrepare' => true,
     'username' => 'root',
-    'password' => '1234',
+    'password' => 'T@ekwond0',
     'charset' => 'utf8',
     
 );

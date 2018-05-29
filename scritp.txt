@@ -1,3 +1,30 @@
 ALTER TABLE db_millas_tts.destinos ADD ciudad varchar(100) NOT NULL ;
 ALTER TABLE db_millas_tts.destinos CHANGE ciudad ciudad varchar(100) NOT NULL AFTER nombre ;
+ALTER TABLE db_millas_tts.banner ADD data_json TEXT NULL ;
 
+CREATE TABLE db_millas_tts.galeria_destino (
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	id_destino INTEGER NOT NULL,
+	id_imagen INTEGER NOT NULL,
+	es_principal SMALLINT DEFAULT 0 NULL,
+	CONSTRAINT galeria_destino_PK PRIMARY KEY (id),
+	CONSTRAINT galeria_destino_imagenes_FK FOREIGN KEY (id_imagen) REFERENCES db_millas_tts.imagenes(id) ON DELETE RESTRICT,
+	CONSTRAINT galeria_destino_destinos_FK FOREIGN KEY (id) REFERENCES db_millas_tts.destinos(id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci ;
+
+
+CREATE TABLE db_millas_tts.galeria_promocion (
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	id_promocion INTEGER NOT NULL,
+	id_imagen INTEGER NOT NULL,
+	es_principal SMALLINT DEFAULT 0 NULL,
+	CONSTRAINT galeria_promocion_PK PRIMARY KEY (id),
+	CONSTRAINT galeria_promocion_promociones_FK FOREIGN KEY (id_promocion) REFERENCES db_millas_tts.promociones(id) ON DELETE RESTRICT,
+	CONSTRAINT galeria_promocion_imagenes_FK FOREIGN KEY (id_imagen) REFERENCES db_millas_tts.imagenes(id) ON DELETE RESTRICT
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci ;

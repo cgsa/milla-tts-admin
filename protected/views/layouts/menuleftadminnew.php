@@ -81,10 +81,7 @@
                         <li><a href="<?php echo Yii::app()->createUrl("/Imagenes/admin");?>">Imagenes</a></li>
                         <li><a href="<?php echo Yii::app()->createUrl("/Banner/admin");?>">Banner</a></li>
                         <li><a href="<?php echo Yii::app()->createUrl("/Destinos/admin");?>">Destinos</a></li>
-                        <li><a href="<?php echo Yii::app()->createUrl("/PanelAdministrativo/Agentes");?>">Galerias</a></li>
-                        <li><a href="<?php echo Yii::app()->createUrl("/PanelAdministrativo/ClasificacionDeudores");?>">Clasificación</a></li>
-                        <li><a href="<?php echo Yii::app()->createUrl("/PanelAdministrativo/herramientas");?>">Herramientas</a></li>
-                        <li><a href="<?php echo Yii::app()->createUrl("/EnlacesPagina/admin");?>">Enlaces</a></li>
+                        <li><a href="<?php echo Yii::app()->createUrl("/Promociones/admin");?>">Promociones</a></li>
                     </ul>
                 </li>
                 
