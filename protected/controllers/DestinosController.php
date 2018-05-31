@@ -145,7 +145,8 @@ class DestinosController extends Controller
     {
         try
         {
-            $result = "";
+            $result = array();
+            
             if( isset($_POST))
             {
                 switch ($_POST['action'])
