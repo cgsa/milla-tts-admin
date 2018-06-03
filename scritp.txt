@@ -52,3 +52,17 @@ CREATE TABLE `destinos` (
   KEY `destinos_galerias_FK` (`id_galeria`),
   CONSTRAINT `destinos_galerias_FK` FOREIGN KEY (`id`) REFERENCES `galeria_destino` (`id_destino`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `destinos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `ciudad` varchar(100) NOT NULL,
+  `descripcion` text,
+  `coodenadas` varchar(100) DEFAULT NULL,
+  `id_galeria` int(11) DEFAULT NULL,
+  `status` smallint(6) DEFAULT '0',
+  `fecha_registro` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `destinos_galerias_FK` (`id_galeria`),
+  CONSTRAINT `destinos_galerias_FK` FOREIGN KEY (`id`) REFERENCES `galeria_destino` (`id_destino`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
