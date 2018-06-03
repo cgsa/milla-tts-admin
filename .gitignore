@@ -1,3 +1,4 @@
 protected/config/*
 protected/runtime/*
 assets/*
+upload/*
