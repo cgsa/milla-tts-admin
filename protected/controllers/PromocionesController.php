@@ -219,7 +219,7 @@ class PromocionesController extends Controller
 	                    {
 	                        $model = new Banner;
 	                        $model->attributes = $_POST['Banner'];
-	                        $json['contralador'] = "Promociones";
+	                        $json['controlador'] = "Promociones";
 	                        $json['value'] = $_POST['id'];
 	                        $model->data_json = json_encode($json);
 	                        

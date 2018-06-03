@@ -1,10 +1,9 @@
 <?php
-/* @var $this BannerController */
-/* @var $model Banner */
+/* @var $this DestinosController */
+/* @var $model Destinos */
 /* @var $form CActiveForm */
-$baseUrl = Yii::app()->request->baseUrl;
-Yii::app()->clientScript->registerScriptFile($baseUrl."/assets/assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js", CClientScript::POS_END);
-Yii::app()->clientScript->registerScript('banner', "
+
+Yii::app()->clientScript->registerScript('destinos', "
     
 $('.wysihtml5').wysihtml5();
 
@@ -36,7 +35,6 @@ function desbloquePantalla()
 }
     
 ");
-//$model->isNewRecord
 ?>
 
 <!-- Start Row -->  
@@ -45,9 +43,9 @@ function desbloquePantalla()
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-body">
-                <h4 class="m-t-0 m-b-30">Nuevo Banner</h4>
+                <h4 class="m-t-0 m-b-30">Horizontal form</h4>
                 <?php $form=$this->beginWidget('CActiveForm', array(
-                    'id'=>'banner-form',
+                    'id'=>'destinos-form',
                     'action'=> '',
                     'method'=> 'post',
                 	// Please note: When you enable ajax validation, make sure the corresponding
@@ -55,29 +53,27 @@ function desbloquePantalla()
                 	// There is a call to performAjaxValidation() commented in generated controller code.
                 	// See class documentation of CActiveForm for details on this.
                     'enableAjaxValidation'=>false,
-                    'htmlOptions' => array('class'=>'form-horizontal','enctype' => 'multipart/form-data'),
+                    'htmlOptions' => array('class'=>'form-horizontal'),
                 )); ?>
-                	
                     <div class="form-group">
-                        <?php echo $form->labelEx($model,'id_imagen',array('class'=>'col-sm-3 control-label')); ?>
-                        <div class="col-sm-9">
-                            <input type="file" class="filestyle" data-icon="false" name="Imagenes[Filedata]" data-buttonbefore="true">
+                        <?php echo $form->labelEx($model,'email',array('class'=>'col-sm-3 control-label')); ?>
+                        <div class="col-sm-9">                            
+                            <?php echo $form->textField($model,'email',array('class'=>'form-control','size'=>60,'maxlength'=>100)); ?>
+							<?php echo $form->error($model,'email'); ?>
                         </div>
-                    </div> 
-                    <div class="form-group">
-                        <?php echo $form->labelEx($model,'nombre',array('class'=>'col-sm-3 control-label')); ?>
-                        <div class="col-sm-9">
-                            <?php echo $form->textField($model,'nombre',array('class'=>'form-control','size'=>60,'maxlength'=>100)); ?>
-							<?php echo $form->error($model,'nombre'); ?>
-                        </div>
-                    </div>                    
-                    <div class="form-group">
-                    	<?php echo $form->labelEx($model,'descripcion',array('class'=>'col-sm-3 control-label')); ?>
-                        <div class="col-sm-9">
-                            <?php echo $form->textArea($model,'descripcion',array('class'=>'form-control wysihtml5','rows'=>9)); ?>
-                			<?php echo $form->error($model,'descripcion'); ?>
-                        </div>                		
                     </div>
+                    <?php 
+                    if(!$model->isNewRecord):
+                    ?>
+                    <div class="form-group">
+                        <?php echo $form->labelEx($model,'fecha_registro',array('class'=>'col-sm-3 control-label')); ?>
+                        <div class="col-sm-9">
+                        	<span class="form-control" ><?php echo $model->fecha_registro;?></span>
+                        </div>
+                    </div>
+                    <?php 
+                    endif;
+                    ?>
                     <div class="form-group" >
                     	<?php echo $form->labelEx($model,'status',array('class'=>'col-sm-3 control-label')); ?>
                     	<div class="col-sm-9">
@@ -87,22 +83,10 @@ function desbloquePantalla()
                     		?>
                     		<?php echo $form->error($model,'status'); ?>
                     	</div>
-                    </div>
-                    <?php 
-                    if(!$model->isNewRecord):
-                    ?>
-                    <div class="form-group m-b-5">
-                    	<div class="col-sm-4"></div>
-                    	<div class="col-sm-8">
-                    		<img width="60%" src="<?php echo $baseUrl."/upload/img/".$model->idImagen->path;?>" />
-                    	</div>
-                    </div>
-                    <?php 
-                    endif;
-                    ?>
+                    </div> 
                     <div class="form-group m-b-0">
                         <div class="col-sm-offset-3 col-sm-9">
-                        	<a href="<?php echo Yii::app()->createUrl("/Banner/admin");?>"  class="btn btn-danger" >Volver</a>
+                        	<a href="<?php echo Yii::app()->createUrl("/Suscripciones/admin");?>"  class="btn btn-danger" >Volver</a>
                             <button type="submit" class="btn btn-info waves-effect waves-light">Registrar</button>
                         </div>
                     </div>
@@ -112,7 +96,4 @@ function desbloquePantalla()
     </div> <!-- col -->
 </div>
 <!-- End Row -->
-
-
-
 

@@ -6,6 +6,8 @@
  * The followings are the available columns in table 'promociones':
  * @property integer $id
  * @property integer $id_lugar
+ * @property string $titulo
+ * @property string $descripcion
  * @property string $cant_millas
  * @property string $cant_cuotas
  * @property string $fecha_vencimiento
@@ -18,6 +20,7 @@
  * @property string $fecha_registro
  *
  * The followings are the available model relations:
+ * @property GaleriaPromocion[] $galeriaPromocions
  * @property Destinos $idLugar
  * @property Imagenes $idImagen
  */
@@ -41,13 +44,13 @@ class Promociones extends CActiveRecord
 		return array(
 			array('id_lugar, cant_millas, cant_cuotas, fecha_vencimiento', 'required'),
 			array('id_lugar, cant_pasajes, id_imagen, visibilidad, status', 'numerical', 'integerOnly'=>true),
+			array('titulo, codigo_barra', 'length', 'max'=>100),
 			array('cant_millas, cant_cuotas', 'length', 'max'=>20),
-			array('codigo_barra', 'length', 'max'=>100),
-		    array('fecha_fin, fecha_registro', 'safe'),
+		    array('descripcion, fecha_fin, fecha_registro', 'safe'),
 		    array('fecha_registro', 'default','value'=>new CDbExpression('NOW()'),'on'=>'insert'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_lugar, cant_millas, cant_cuotas, fecha_vencimiento, cant_pasajes, codigo_barra, id_imagen, visibilidad, status, fecha_fin, fecha_registro', 'safe', 'on'=>'search'),
+			array('id, id_lugar, titulo, descripcion, cant_millas, cant_cuotas, fecha_vencimiento, cant_pasajes, codigo_barra, id_imagen, visibilidad, status, fecha_fin, fecha_registro', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,6 +62,7 @@ class Promociones extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'galeriaPromocions' => array(self::HAS_MANY, 'GaleriaPromocion', 'id_promocion'),
 			'idLugar' => array(self::BELONGS_TO, 'Destinos', 'id_lugar'),
 			'idImagen' => array(self::BELONGS_TO, 'Imagenes', 'id_imagen'),
 		);
@@ -72,6 +76,8 @@ class Promociones extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'id_lugar' => 'Id Lugar',
+			'titulo' => 'Titulo',
+			'descripcion' => 'Descripcion',
 			'cant_millas' => 'Cant Millas',
 			'cant_cuotas' => 'Cant Cuotas',
 			'fecha_vencimiento' => 'Fecha Vencimiento',
@@ -105,6 +111,8 @@ class Promociones extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('id_lugar',$this->id_lugar);
+		$criteria->compare('titulo',$this->titulo,true);
+		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('cant_millas',$this->cant_millas,true);
 		$criteria->compare('cant_cuotas',$this->cant_cuotas,true);
 		$criteria->compare('fecha_vencimiento',$this->fecha_vencimiento,true);

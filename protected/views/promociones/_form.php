@@ -66,6 +66,15 @@ function desbloquePantalla()
                             <input type="file" class="filestyle" data-icon="false" name="Imagenes[Filedata]" data-buttonbefore="true">
                         </div>
                     </div> 
+                    
+                    <div class="form-group">
+                        <?php echo $form->labelEx($model,'titulo',array('class'=>'col-sm-3 control-label')); ?>
+                        <div class="col-sm-9">                            
+                            <?php echo $form->textField($model,'titulo',array('class'=>'form-control','size'=>60,'maxlength'=>100)); ?>
+							<?php echo $form->error($model,'titulo'); ?>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <?php echo $form->labelEx($model,'id_lugar',array('class'=>'col-sm-3 control-label')); ?>
                         <div class="col-sm-9"> 
@@ -86,6 +95,13 @@ function desbloquePantalla()
                         <div class="col-sm-9">
                             <?php echo $form->textField($model,'cant_millas',array('class'=>'form-control','size'=>60,'maxlength'=>20)); ?>
 							<?php echo $form->error($model,'cant_millas'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?php echo $form->labelEx($model,'cant_pasajes',array('class'=>'col-sm-3 control-label')); ?>
+                        <div class="col-sm-9">
+                            <?php echo $form->textField($model,'cant_pasajes',array('class'=>'form-control','size'=>60,'maxlength'=>20)); ?>
+							<?php echo $form->error($model,'cant_pasajes'); ?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -159,6 +175,14 @@ function desbloquePantalla()
                         	?>                            
 							<?php echo $form->error($model,'fecha_fin'); ?>
                         </div>
+                    </div>
+                    
+                    <div class="form-group">
+                    	<?php echo $form->labelEx($model,'descripcion',array('class'=>'col-sm-3 control-label')); ?>
+                        <div class="col-sm-9">
+                            <?php echo $form->textArea($model,'descripcion',array('class'=>'form-control wysihtml5','rows'=>9)); ?>
+                			<?php echo $form->error($model,'descripcion'); ?>
+                        </div>                		
                     </div>
                     <div class="form-group" >
                     	<?php echo $form->labelEx($model,'status',array('class'=>'col-sm-3 control-label')); ?>

@@ -28,3 +28,13 @@ CREATE TABLE db_millas_tts.galeria_promocion (
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8
 COLLATE=utf8_general_ci ;
+
+
+
+CREATE TABLE `suscripciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL,
+  `fecha_registro` datetime DEFAULT NULL,
+  `status` smallint(6) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
