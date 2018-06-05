@@ -13,13 +13,15 @@
                 <h4 class="m-t-0 m-b-30">Horizontal form</h4>
                 <dl class="row" >
                     <dt class="col-sm-4">Ciudad:</dt>
-                    <dd class="col-sm-8"><?php echo $model->ciudad;?></dd>
+                    <dd class="col-sm-8"><?php echo $model->ciudad."&nbsp;";?></dd>
                     <dt class="col-sm-4">Nombre:</dt>
-                    <dd class="col-sm-8"><?php echo $model->nombre;?></dd>
+                    <dd class="col-sm-8"><?php echo $model->nombre."&nbsp;";?></dd>
                     <dt class="col-sm-4">Coordenadas:</dt>
-                    <dd class="col-sm-8"><?php echo $model->coodenadas;?></dd>
+                    <dd class="col-sm-8"><?php echo $model->coodenadas."&nbsp;";?></dd>
                     <dt class="col-sm-4">Descripcion:</dt>
-                    <dd class="col-sm-8"><?php echo $model->descripcion;?></dd>
+                    <dd class="col-sm-8"><?php echo $model->descripcion."&nbsp;";?></dd>
+                    <dt class="col-sm-4">Estatus:</dt>
+                    <dd class="col-sm-8"><?php echo ($model->status == 0)? 'Inactivo' : 'Activo';?></dd>
                 </dl>
                 <div class="row">
             		<div>

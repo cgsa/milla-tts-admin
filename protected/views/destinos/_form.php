@@ -84,6 +84,16 @@ function desbloquePantalla()
                 			<?php echo $form->error($model,'descripcion'); ?>
                         </div>                		
                     </div>
+                    <div class="form-group" >
+                    	<?php echo $form->labelEx($model,'status',array('class'=>'col-sm-3 control-label')); ?>
+                    	<div class="col-sm-9">
+                    		<?php 
+                    		echo $form->dropDownList($model,'status',array('1' => 'Activo', '0' => 'Inactivo'),
+                    		          array('empty' => '--Seleccione--','class'=>'form-control'));
+                    		?>
+                    		<?php echo $form->error($model,'status'); ?>
+                    	</div>
+                    </div>
                     <div class="form-group m-b-0">
                         <div class="col-sm-offset-3 col-sm-9">
                         	<a href="<?php echo Yii::app()->createUrl("/Destinos/admin");?>"  class="btn btn-danger" >Volver</a>
