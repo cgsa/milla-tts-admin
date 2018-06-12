@@ -10,7 +10,8 @@
  * @property string $descripcion
  * @property integer $status
  * @property string $fecha_registro
- * @property string $data_json
+ * @property string $controlador
+ * @property integer $id_contralador
  *
  * The followings are the available model relations:
  * @property Imagenes $idImagen
@@ -36,16 +37,19 @@ class Banner extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre', 'required'),
-			array('id_imagen, status', 'numerical', 'integerOnly'=>true),
+			array('id_imagen, nombre', 'required'),
+			array('id_imagen, status, id_contralador', 'numerical', 'integerOnly'=>true),
 			array('nombre, descripcion', 'length', 'max'=>100),
-		    array('fecha_registro, data_json', 'safe'),
+			array('controlador', 'length', 'max'=>30),
+		    array('fecha_registro', 'safe'),
 		    array('Filedata', 'file', 'types'=>'jpg,jpeg,gif,png', 'safe' => false,'allowEmpty' => true),
+		    array('fecha_registro', 'default','value'=>new CDbExpression('NOW()'),'on'=>'insert'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_imagen, nombre, descripcion, status, fecha_registro, data_json', 'safe', 'on'=>'search'),
+			array('id, id_imagen, nombre, descripcion, status, fecha_registro, controlador, id_contralador', 'safe', 'on'=>'search'),
 		);
 	}
+	
 
 	/**
 	 * @return array relational rules.
@@ -71,7 +75,8 @@ class Banner extends CActiveRecord
 			'descripcion' => 'Descripcion',
 			'status' => 'Status',
 			'fecha_registro' => 'Fecha Registro',
-			'data_json' => 'Data Json',
+			'controlador' => 'Controlador',
+			'id_contralador' => 'Valor',
 		);
 	}
 
@@ -99,7 +104,8 @@ class Banner extends CActiveRecord
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('fecha_registro',$this->fecha_registro,true);
-		$criteria->compare('data_json',$this->data_json,true);
+		$criteria->compare('controlador',$this->controlador,true);
+		$criteria->compare('id_contralador',$this->id_contralador);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

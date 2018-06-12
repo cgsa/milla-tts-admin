@@ -66,3 +66,10 @@ CREATE TABLE `destinos` (
   KEY `destinos_galerias_FK` (`id_galeria`),
   CONSTRAINT `destinos_galerias_FK` FOREIGN KEY (`id`) REFERENCES `galeria_destino` (`id_destino`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+
+
+ALTER TABLE db_millas_tts.galeria_promocion ADD es_active SMALLINT DEFAULT 0 NULL ;
+
+
+

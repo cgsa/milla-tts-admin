@@ -9,6 +9,42 @@ Yii::app()->clientScript->registerScript('banner', "
 $('.wysihtml5').wysihtml5();
 
 
+
+$('#Banner_controlador').change(function()
+{
+
+    var action = $(this).find('option:selected').val();
+    var id = $(this).attr('data-id');
+    var param = {'action': action};
+    bloqueoPantalla();
+    
+    $.ajax(
+    {
+        url:        '".Yii::app()->createUrl('Banner/combos')."',
+        type:       'POST',
+        data:       param,
+        dataType:   'JSON',
+        success:    function(_res)
+        {
+            desbloquePantalla();
+            if(_res.status)
+            {
+                $('#Banner_id_contralador').html(_res.combo);
+            }
+            else
+            {
+                swal( _res.mensaje );
+            }
+        },
+        error: function(_error)
+        {
+            desbloquePantalla();
+            swal( 'Se produjó un error en el procesamiento los datos.' );
+        }
+    });
+    
+});
+
 function bloqueoPantalla()
 {
     $.blockUI({ message: 'Espere un momento por favor...', css: {
@@ -57,12 +93,58 @@ function desbloquePantalla()
                     'enableAjaxValidation'=>false,
                     'htmlOptions' => array('class'=>'form-horizontal','enctype' => 'multipart/form-data'),
                 )); ?>
-                	
+                
+                	<?php if(Yii::app()->user->hasFlash('error')):?>
+                    <div class="alert alert-danger">
+                        <?php echo Yii::app()->user->getFlash('error');?>
+                    </div>
+                	<?php 
+                	endif;
+                	?>
                     <div class="form-group">
                         <?php echo $form->labelEx($model,'id_imagen',array('class'=>'col-sm-3 control-label')); ?>
                         <div class="col-sm-9">
                             <input type="file" class="filestyle" data-icon="false" name="Imagenes[Filedata]" data-buttonbefore="true">
                         </div>
+                    </div> 
+                    <div class="form-group" >
+                    	<?php echo $form->labelEx($model,'controlador',array('class'=>'col-sm-3 control-label')); ?>
+                    	<div class="col-sm-9">
+                    		<?php 
+                    		echo $form->dropDownList($model,'controlador',array('destinos' => 'Destinos', 'promociones' => 'Promociones'),
+                    		          array('empty' => '--Seleccione--','class'=>'form-control'));
+                    		?>
+                    		<?php echo $form->error($model,'controlador'); ?>
+                    	</div>
+                    </div>
+                    <div class="form-group" >
+                    	<?php echo $form->labelEx($model,'id_contralador',array('class'=>'col-sm-3 control-label')); ?>
+                    	<?php 
+                    	$list = array();
+                    	if(!$model->isNewRecord)
+                    	{
+                    	    switch ($model->controlador) {
+                    	        case 'destinos':
+                    	            $array = Destinos::model()->findAll();
+                    	            $list = CHtml::listData($array,
+                    	                'id', 'nombre');
+                    	        break;                    	        
+                    	        case 'promociones':
+                    	            $array = Promociones::model()->findAll();
+                    	            $list = CHtml::listData($array,
+                    	                'id', 'titulo'); 
+                    	        break;
+                    	    }
+                    	    
+                    	}
+                        ?>
+                    	<div class="col-sm-9">
+                    		<?php 
+                    		echo $form->dropDownList($model,'id_contralador',$list,
+                    		          array('empty' => '--Seleccione--','class'=>'form-control'));
+                    		?>
+                    		<?php echo $form->error($model,'id_contralador'); ?>
+                    	</div>
                     </div> 
                     <div class="form-group">
                         <?php echo $form->labelEx($model,'nombre',array('class'=>'col-sm-3 control-label')); ?>

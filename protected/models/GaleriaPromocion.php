@@ -8,6 +8,7 @@
  * @property integer $id_promocion
  * @property integer $id_imagen
  * @property integer $es_principal
+ * @property integer $es_active
  *
  * The followings are the available model relations:
  * @property Imagenes $idImagen
@@ -32,10 +33,10 @@ class GaleriaPromocion extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_promocion, id_imagen', 'required'),
-			array('id_promocion, id_imagen, es_principal', 'numerical', 'integerOnly'=>true),
+			array('id_promocion, id_imagen, es_principal, es_active', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_promocion, id_imagen, es_principal', 'safe', 'on'=>'search'),
+			array('id, id_promocion, id_imagen, es_principal, es_active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +63,7 @@ class GaleriaPromocion extends CActiveRecord
 			'id_promocion' => 'Id Promocion',
 			'id_imagen' => 'Id Imagen',
 			'es_principal' => 'Es Principal',
+			'es_active' => 'Es Active',
 		);
 	}
 
@@ -87,6 +89,7 @@ class GaleriaPromocion extends CActiveRecord
 		$criteria->compare('id_promocion',$this->id_promocion);
 		$criteria->compare('id_imagen',$this->id_imagen);
 		$criteria->compare('es_principal',$this->es_principal);
+		$criteria->compare('es_active',$this->es_active);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

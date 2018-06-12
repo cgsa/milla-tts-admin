@@ -46,32 +46,44 @@ class BannerController extends Controller
 		    // Set the uplaod directory
 		    $uploadDir = Yii::app()->basePath .'/../upload/img';
 		    $model->attributes=$_POST['Banner'];
-		    
-		    
-		    //var_dump($_FILES['Imagenes']);die;
-		    //$thumb = $model->createImageThumb( $_FILES['Imagenes']['name']['Filedata'], "120" );
-		    $imageUploadFile = CUploadedFile::getInstance($model2, 'Filedata');
-		    //var_dump($imageUploadFile);die;
-		    if(!empty($imageUploadFile))
+		    $criteria=new CDbCriteria;
+		    $criteria->condition = "controlador = '".$model->controlador."'";
+		    $criteria->condition .= " AND id_contralador = ".$model->id_contralador;
+		    $rows = $model->find($criteria);
+		    //var_dump($rows);die;
+		    if( is_null($rows) )
 		    {
-		        
-		        $file = rand(0,999999)."-{$imageUploadFile}";
-		        $imageUploadFile->saveAs($uploadDir.'/'.$file);
-		        
-		        $model2->path = $file;
-		        $model2->save();
-		        $model->id_imagen = $model2->id;
-		        
-		        if($model->save())
+		        //var_dump($_FILES['Imagenes']);die;
+		        //$thumb = $model->createImageThumb( $_FILES['Imagenes']['name']['Filedata'], "120" );
+		        $imageUploadFile = CUploadedFile::getInstance($model2, 'Filedata');
+		        //var_dump($imageUploadFile);die;
+		        if(!empty($imageUploadFile))
 		        {
-		            $this->redirect(array('view','id'=>$model->id));
+		            
+		            $file = rand(0,999999)."-{$imageUploadFile}";
+		            $imageUploadFile->saveAs($uploadDir.'/'.$file);
+		            
+		            $model2->path = $file;
+		            $model2->save();
+		            $model->id_imagen = $model2->id;
+		            
+		            if($model->save())
+		            {
+		                $this->redirect(array('view','id'=>$model->id));
+		            }
+		            
+		        }
+		        else
+		        {
+		            throw new CHttpException(404,'Hubo un error con la imagen.');
 		        }
 		        
 		    }
 		    else
 		    {
-		        throw new CHttpException(404,'Hubo un error con la imagen.');
-		    }		    
+		        Yii::app()->user->setFlash('error', "Ya esta registrado un banner con este enlace");
+		    }
+		    		    
 			
 			
 		}
@@ -90,6 +102,7 @@ class BannerController extends Controller
 	        unlink($file);
 	    }
 	}
+	
 
 	/**
 	 * Updates a particular model.
@@ -109,26 +122,39 @@ class BannerController extends Controller
 			// Set the uplaod directory
 			$uploadDir = Yii::app()->basePath .'/../upload/img';
 			$model2 = new Imagenes;
+			$criteria=new CDbCriteria;
+			$criteria->condition = "controlador = '".$model->controlador."'";
+			$criteria->condition .= " AND id_contralador = ".$model->id_contralador;
+			$rows = $model->find($criteria);
 			
-			//var_dump($_FILES['Imagenes']);die;
-			//$thumb = $model->createImageThumb( $_FILES['Imagenes']['name']['Filedata'], "120" );
-			$imageUploadFile = CUploadedFile::getInstance($model2, 'Filedata');
-			//var_dump($imageUploadFile);die;
-			if(!empty($imageUploadFile))
+			if( is_null($rows) )
 			{
-			    $file = rand(0,999999)."-{$imageUploadFile}";
-			    $imageUploadFile->saveAs($uploadDir.'/'.$file);
+			    //var_dump($_FILES['Imagenes']);die;
+			    //$thumb = $model->createImageThumb( $_FILES['Imagenes']['name']['Filedata'], "120" );
+			    $imageUploadFile = CUploadedFile::getInstance($model2, 'Filedata');
+			    //var_dump($imageUploadFile);die;
+			    if(!empty($imageUploadFile))
+			    {
+			        $file = rand(0,999999)."-{$imageUploadFile}";
+			        $imageUploadFile->saveAs($uploadDir.'/'.$file);
+			        
+			        $model2->path = $file;
+			        $model2->save();
+			        $model->id_imagen = $model2->id;
+			        
+			    }
 			    
-			    $model2->path = $file;
-			    $model2->save();
-			    $model->id_imagen = $model2->id;		    
+			    if($model->save())
+			    {
+			        $this->redirect(array('view','id'=>$model->id));
+			    }
 			    
 			}
-			
-			if($model->save())
+			else
 			{
-			    $this->redirect(array('view','id'=>$model->id));
+			    Yii::app()->user->setFlash('error', "Ya esta registrado un banner con este enlace");
 			}
+			
 			
 		}
 
@@ -247,6 +273,60 @@ class BannerController extends Controller
 	    }
 	    
 	    die(json_encode($result));
+	}
+	
+	
+	
+	public function actionCombos()
+	{
+	   
+	    try 
+	    {
+	        if( isset($_POST['action']) )
+	        {
+	            switch ($_POST['action']) 
+	            {
+	                case 'destinos':
+	                    $model = new Destinos;
+	                    $criteria=new CDbCriteria;
+	                    $criteria->condition = "status = 1";
+	                    $rows = $model->findAll($criteria); 
+	                    $atributo = "nombre";
+	                    
+	                break;	                
+	                case 'promociones':
+	                    $model = new Promociones;
+	                    $criteria=new CDbCriteria;
+	                    $criteria->condition = "status = 1";
+	                    $rows = $model->findAll($criteria);
+	                    $atributo = "titulo";
+	                break;
+	            }	            
+	            
+	            $select = "<option value='' >--Seleccione--</option>";
+	            foreach ($rows as $key => $value) {
+	                $select .= "<option value='".$value->id."' >".$value->$atributo."</option>";
+	            }	 
+	            
+	            $result['status'] = true;
+	            $result['combo'] = $select;
+	            
+	        }
+	        else
+	        {
+	            throw new Exception('Se ha presentado un error inesperado.');
+	        }
+	        
+	    } 
+	    catch (Exception $e) 
+	    {
+	        $result['status'] = false;
+	        $result['mensaje'] = $e->getMessage();
+	    }
+	    
+	    
+	    die(json_encode($result));
+	    
 	}
 
 	/**

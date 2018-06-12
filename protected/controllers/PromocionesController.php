@@ -186,33 +186,14 @@ class PromocionesController extends Controller
 	{
 	    try
 	    {
-	        $result = "";
+	        $result = array();
 	        if( isset($_POST))
 	        {
 	            switch ($_POST['action'])
 	            {
 	                case 'P':
-	                    
-	                    if( isset($_POST['id']) )
-	                    {
-	                        $connection=Yii::app()->db;
-	                        $sql="UPDATE galeria_promocion SET es_principal = 0 WHERE id_promocion =:promocion ";
-	                        $command=$connection->createCommand($sql);
-	                        $command->bindParam(":promocion",$_POST['promocion'],PDO::PARAM_INT);
-	                        $command->execute();
-	                        
-	                        $model = GaleriaPromocion::model()->findByPk($_POST['id']);
-	                        $model->es_principal = 1;
-	                        $model->save();
-	                        
-	                        $result['status'] = true;
-	                        $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
-	                    }
-	                    else
-	                    {
-	                        throw new Exception('Se ha producido una error al intentar realizar la acción.');
-	                    }
-	                    break;
+	                    $result = $this->establecerPrincipal($_POST); 
+	                break;
 	                case 'B':
 	                    
 	                    if( isset($_POST['Banner']) )
@@ -234,7 +215,13 @@ class PromocionesController extends Controller
 	                    {
 	                        throw new Exception('Se ha producido una error al intentar realizar la acción.');
 	                    }
-	                    break;
+	                break;
+	                case 'S':
+	                   $result = $this->establecerActivos("es_active", $_POST);    
+	                break;
+	                case 'DG':
+	                    
+	                break;
 	            }
 	        }
 	        else
@@ -245,11 +232,55 @@ class PromocionesController extends Controller
 	    }
 	    catch (Exception $e)
 	    {
-	        $result['status'] = true;
+	        $result['status'] = false;
 	        $result['mensaje'] = $e->getMessage();
 	    }
 	    
 	    die(json_encode($result));
+	}
+	
+	
+	
+	public function establecerActivos( $attr, $post )
+	{
+	    if( isset($post['id']) )
+	    {
+	        $model = GaleriaPromocion::model()->findByPk($post['id']);
+	        $model->$attr = $post['promocion'];
+	        if($model->save())
+	        {
+	            $result['status'] = true;
+	            $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	            return (array)$result;
+	        }
+	    }
+	}
+	
+	
+	public function establecerPrincipal($post)
+	{
+	    if( isset($post['id']) )
+	    {
+	        $connection=Yii::app()->db;
+	        $sql="UPDATE galeria_promocion SET es_principal = 0 WHERE id_promocion =:promocion ";
+	        $command=$connection->createCommand($sql);
+	        $command->bindParam(":promocion",$post['promocion'],PDO::PARAM_INT);
+	        $command->execute();
+	        
+	        $model = GaleriaPromocion::model()->findByPk($post['id']);
+	        $model->es_principal = 1;
+	        $model->save();
+	        
+	        $result['status'] = true;
+	        $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	        
+	        return (array)$result;
+	    }
+	    else
+	    {
+	        throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	    }
+	    
 	}
 	
 	

@@ -240,6 +240,20 @@ $baseUrl = Yii::app()->request->baseUrl;
                       				<?php 
                       				endif;
                       				?>
+                      			</a>
+                      			<?php $active = ($value->es_active == 0)? 1 : 0;  ?>
+                      			<a data-promo="<?php echo $active;?>" data-action="S" data-id="<?php echo $value->id;?>" title="Marcar como principal" class="btn-operaciones" style="cursor: pointer;" >
+                      				<?php 
+                      				if($value->es_active == 0):
+                      				?> 
+                      					<i class="fa fa-check-square-o"></i>
+                      				<?php 
+                      				else:
+                      				?>
+                      					<i class="fa fa-check-square"></i>
+                      				<?php 
+                      				endif;
+                      				?>
                       			</a>                      			
                       		</div>
                         </div>                        

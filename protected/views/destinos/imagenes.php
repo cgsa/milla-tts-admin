@@ -232,7 +232,7 @@ $baseUrl = Yii::app()->request->baseUrl;
                       				<?php 
                       				if($value->es_principal == 0):
                       				?>
-                      				<i class="fa fa-flag-o"></i>
+                      					<i class="fa fa-flag-o"></i>
                       				<?php 
                       				else:
                       				?>
@@ -240,7 +240,20 @@ $baseUrl = Yii::app()->request->baseUrl;
                       				<?php 
                       				endif;
                       				?>
-                      			</a>                      			
+                      			</a>
+                      			<a data-destino="<?php echo $id;?>" data-action="S" data-id="<?php echo $value->id;?>" title="Marcar como principal" class="btn-operaciones" style="cursor: pointer;" >
+                      				<?php 
+                      				if($value->es_principal == 0):
+                      				?> 
+                      					<i class="fa fa-check-square-o"></i>
+                      				<?php 
+                      				else:
+                      				?>
+                      					<i class="fa fa-check-square"></i>
+                      				<?php 
+                      				endif;
+                      				?>
+                      			</a>                      			                    			
                       		</div>
                         </div>                        
     				<?php 				
