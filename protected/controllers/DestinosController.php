@@ -68,7 +68,7 @@ class DestinosController extends Controller
 	
 	public function actionUpload($id)
 	{
-	    
+	    //die($id);
 	    if( isset($_POST['timestamp']) )
 	    {
 	        // Set the uplaod directory
@@ -85,7 +85,7 @@ class DestinosController extends Controller
 	            if($model->save())
 	            {      
 	                $destino = new GaleriaDestino;
-	                $destino->id_destino = $id;
+	                $destino->id_destino = (int)$id;
 	                $destino->id_imagen = $model->id;
 	                $destino->save();
 	                echo 1;	                

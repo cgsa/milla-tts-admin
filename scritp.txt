@@ -72,4 +72,20 @@ CREATE TABLE `destinos` (
 ALTER TABLE db_millas_tts.galeria_promocion ADD es_active SMALLINT DEFAULT 0 NULL ;
 
 
+ALTER TABLE db_millas_tts.promociones ADD titulo varchar(100) NULL ;
+ALTER TABLE db_millas_tts.promociones CHANGE titulo titulo varchar(100) NULL AFTER id_lugar ;
+ALTER TABLE db_millas_tts.promociones ADD descripcion TEXT NULL ;
+ALTER TABLE db_millas_tts.promociones CHANGE descripcion descripcion TEXT NULL AFTER titulo ;
+
+
+ALTER TABLE db_millas_tts.banner ADD controlador varchar(30) NULL ;
+ALTER TABLE db_millas_tts.banner ADD id_contralador INTEGER NULL ;
+
+ALTER TABLE db_millas_tts.destinos DROP COLUMN id_galeria ;
+ALTER TABLE db_millas_tts.destinos DROP FOREIGN KEY destinos_galerias_FK ;
+
+ALTER TABLE db_millas_tts.galeria_destino DROP FOREIGN KEY galeria_destino_destinos_FK ;
+ALTER TABLE db_millas_tts.galeria_destino ADD CONSTRAINT galeria_destino_destinos_FK FOREIGN KEY (id_destino) REFERENCES db_millas_tts.destinos(id) ON DELETE RESTRICT ;
+
+
 

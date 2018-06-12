@@ -125,6 +125,7 @@ class BannerController extends Controller
 			$criteria=new CDbCriteria;
 			$criteria->condition = "controlador = '".$model->controlador."'";
 			$criteria->condition .= " AND id_contralador = ".$model->id_contralador;
+			$criteria->condition .= " AND id <> ".$id;
 			$rows = $model->find($criteria);
 			
 			if( is_null($rows) )
