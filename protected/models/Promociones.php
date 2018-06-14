@@ -75,15 +75,15 @@ class Promociones extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'id_lugar' => 'Id Lugar',
-			'titulo' => 'Titulo',
+			'id_lugar' => 'Ciudad',
+			'titulo' => 'Nombre',
 			'descripcion' => 'Descripcion',
 			'cant_millas' => 'Cant Millas',
 			'cant_cuotas' => 'Cant Cuotas',
 			'fecha_vencimiento' => 'Fecha Vencimiento',
 			'cant_pasajes' => 'Cant Pasajes',
 			'codigo_barra' => 'Codigo Barra',
-			'id_imagen' => 'Id Imagen',
+			'id_imagen' => 'Imagen',
 			'visibilidad' => 'Visibilidad',
 			'status' => 'Status',
 			'fecha_fin' => 'Fecha Fin',

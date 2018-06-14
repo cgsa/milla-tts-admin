@@ -25,9 +25,25 @@ class PromocionesController extends Controller
 	 */
 	public function actionView($id)
 	{
+	    $this->titulopagina = "Vista Promoción";
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+	}
+	
+	/**
+	 * Configuration.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionCuotas($id)
+	{	    
+	    $model2 = new CuotasPromocion;
+	    $model = $this->loadModel($id);
+	    $this->titulopagina = "Cuotas Promoción";
+	    $this->render('_cuotas',array(
+	        'model'=>$this->loadModel($id),
+	        'model2'=>$model2
+	    ));
 	}
 
 	/**
@@ -38,6 +54,7 @@ class PromocionesController extends Controller
 	{
 	    $model=new Promociones;
 	    $model2 = new Imagenes;
+	    $this->titulopagina = "Nueva Promoción";
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -86,7 +103,8 @@ class PromocionesController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+	    $model=$this->loadModel($id);
+	    $this->titulopagina = "Actualizar Promoción";
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -161,7 +179,25 @@ class PromocionesController extends Controller
 	                        'id'=>$_POST['id'],
 	                        'promocion'=>$_POST['promocion'],
 	                    ),true);
-	                    break;
+	               break;
+	               case 'IC':
+	                    $model = new CuotasPromocion;
+	                    $result['status'] = true;
+	                    $result['formulario'] = $this->renderPartial('_formcuotas', array(
+	                        'model'=>$model,
+	                        'action'=>'IC',
+	                        'id'=>$_POST['id']
+	                    ),true);
+	               break;
+	               case 'UC':
+	                   $model = CuotasPromocion::model()->findByPk($_POST['id']);
+	                   $result['status'] = true;
+	                   $result['formulario'] = $this->renderPartial('_formcuotas', array(
+	                       'model'=>$model,
+	                       'action'=>'UC',
+	                       'id'=>$_POST['id']
+	                   ),true);
+	               break;
 	            }
 	        }
 	        else
@@ -219,7 +255,25 @@ class PromocionesController extends Controller
 	                case 'S':
 	                   $result = $this->establecerActivos("es_active", $_POST);    
 	                break;
-	                case 'DG':
+	                case 'IC':
+	                case 'UC':                    
+	                    
+	                    if( isset( $_POST['id'] ) )
+	                    {
+	                        $model = CuotasPromocion::model()->findByPk($_POST['id']);
+	                    }
+	                    else
+	                    {
+	                        $model = new CuotasPromocion;
+	                    }
+	                    
+	                    $model->attributes = $_POST['CuotasPromocion'];
+	                    if($model->save())
+	                    {
+	                        $result['status'] = true;
+	                        $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	                    }
+	                    
 	                    
 	                break;
 	            }
@@ -347,7 +401,8 @@ class PromocionesController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Promociones('search');
+	    $model=new Promociones('search');
+	    $this->titulopagina = "Promociones";
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Promociones']))
 			$model->attributes=$_GET['Promociones'];

@@ -47,7 +47,7 @@ function desbloquePantalla()
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-body">
-                <h4 class="m-t-0 m-b-30">Horizontal form</h4>
+                <h4 class="m-t-0 m-b-30"><?php echo $this->titulopagina;?></h4>
                 <?php $form=$this->beginWidget('CActiveForm', array(
                     'id'=>'promociones-form',
                     'action'=> '',

@@ -89,3 +89,79 @@ ALTER TABLE db_millas_tts.galeria_destino ADD CONSTRAINT galeria_destino_destino
 
 
 
+CREATE TABLE db_millas_tts.cuotas_promocion (
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	id_promocion INTEGER NOT NULL,
+	cant_cuotas SMALLINT NOT NULL,
+	cant_millas SMALLINT NOT NULL,
+	fecha_activa DATE NOT NULL,
+	CONSTRAINT cuotas_promocion_PK PRIMARY KEY (id),
+	CONSTRAINT cuotas_promocion_promociones_FK FOREIGN KEY (id_promocion) REFERENCES db_millas_tts.promociones(id) ON DELETE RESTRICT
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci ;
+
+
+
+
+CREATE TABLE db_millas_tts.promocion_usuario (
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	id_cuota_promocion INTEGER NOT NULL,
+	id_user INTEGER NOT NULL,
+	fecha_registro DATE NULL,
+	id_promocion INTEGER NOT NULL,
+	CONSTRAINT promocion_usuario_PK PRIMARY KEY (id),
+	CONSTRAINT promocion_usuario_cuotas_promocion_FK FOREIGN KEY (id_cuota_promocion) REFERENCES db_millas_tts.cuotas_promocion(id) ON DELETE RESTRICT,
+	CONSTRAINT promocion_usuario_cruge_user_FK FOREIGN KEY (id_user) REFERENCES db_millas_tts.cruge_user(iduser) ON DELETE RESTRICT,
+	CONSTRAINT promocion_usuario_promociones_FK FOREIGN KEY (id_promocion) REFERENCES db_millas_tts.promociones(id) ON DELETE RESTRICT
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci ;
+
+
+
+CREATE TABLE db_millas_tts.configuracion (
+	id INTEGER NOT NULL,
+	cod_empresa varchar(15) NOT NULL,
+	cod_subempresa varchar(15) NOT NULL,
+	verificador varchar(2) NOT NULL,
+	valor_millas varchar(7) NOT NULL,
+	CONSTRAINT configuracion_PK PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci ;
+
+
+ALTER TABLE db_millas_tts.promocion_usuario ADD total_millas varchar(15) NOT NULL ;
+ALTER TABLE db_millas_tts.promocion_usuario ADD monto_total varchar(15) NOT NULL ;
+ALTER TABLE db_millas_tts.promocion_usuario ADD status SMALLINT NULL ;
+ALTER TABLE db_millas_tts.promocion_usuario DROP FOREIGN KEY promocion_usuario_promociones_FK ;
+ALTER TABLE db_millas_tts.promocion_usuario DROP FOREIGN KEY promocion_usuario_cuotas_promocion_FK ;
+ALTER TABLE db_millas_tts.promocion_usuario DROP FOREIGN KEY promocion_usuario_cruge_user_FK ;
+ALTER TABLE db_millas_tts.promocion_usuario ADD CONSTRAINT promocion_usuario_cruge_user_FK FOREIGN KEY (id_user) REFERENCES db_millas_tts.cruge_user(iduser) ON DELETE RESTRICT ;
+ALTER TABLE db_millas_tts.promocion_usuario ADD CONSTRAINT promocion_usuario_promociones_FK FOREIGN KEY (id_promocion) REFERENCES db_millas_tts.promociones(id) ON DELETE RESTRICT ;
+ALTER TABLE db_millas_tts.promocion_usuario ADD CONSTRAINT promocion_usuario_cuotas_promocion_FK FOREIGN KEY (id_cuota_promocion) REFERENCES db_millas_tts.cuotas_promocion(id) ON DELETE RESTRICT ;
+
+
+CREATE TABLE db_millas_tts.pagos_promociones (
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	id_promocion_usuario INTEGER NOT NULL,
+	cod_cupon varchar(100) NOT NULL,
+	fecha_pago DATE NOT NULL,
+	cod_pago varchar(100) NULL,
+	reference_id varchar(100) NULL COMMENT 'Por si es de mercado pago',
+	extra TEXT NULL COMMENT 'Si viene data en formato json',
+	id_user INTEGER NULL,
+	status SMALLINT DEFAULT 0 NULL COMMENT '0 es pendiente de pago, 1 es pagado',
+	CONSTRAINT pagos_promociones_PK PRIMARY KEY (id),
+	CONSTRAINT pagos_promociones_UN UNIQUE KEY (reference_id),
+	CONSTRAINT pagos_promociones_promocion_usuario_FK FOREIGN KEY (id_promocion_usuario) REFERENCES db_millas_tts.promocion_usuario(id) ON DELETE RESTRICT,
+	CONSTRAINT pagos_promociones_cruge_user_FK FOREIGN KEY (id_user) REFERENCES db_millas_tts.cruge_user(iduser) ON DELETE RESTRICT
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8
+COLLATE=utf8_general_ci ;
+

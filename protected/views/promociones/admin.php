@@ -5,8 +5,6 @@
 
 Yii::app()->clientScript->registerScript('promocion', "
     
-    
-    
     $('#datatable').dataTable();
     
 ");
@@ -33,7 +31,8 @@ Yii::app()->clientScript->registerScript('promocion', "
                         <table id="datatable" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                  <th>Destino</th>
+                                  <th>Ciudad</th>
+                                  <th>Nombre</th>
                                   <th>Millas</th>
                                   <th>Cuotas</th>
                                   <th>F. Vencimiento</th>
@@ -49,17 +48,21 @@ Yii::app()->clientScript->registerScript('promocion', "
                           	?>
                                 <tr>
                                   <td><?php echo $value->idLugar->nombre;?></td>
+                                  <td><?php echo $value->titulo;?></td>
                                   <td><?php echo $value->cant_millas;?></td>
                                   <td><?php echo $value->cant_cuotas;?></td>
                                   <td><?php echo $value->fecha_vencimiento;?></td>
                                   <td><?php echo $value->cant_pasajes;?></td>
                                   <td><?php echo $value->status;?></td>
                                   <td>
-                                  	<a href="<?php echo Yii::app()->createUrl('Promociones/Update',array('id'=>$value->id));?>" class="btn btn-default" data-action="U" data-id="<?php echo $value->id;?>" >
-                                  		<i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                  	<a href="<?php echo Yii::app()->createUrl('Promociones/Update',array('id'=>$value->id));?>" class="btn btn-default" data-action="E" data-id="<?php echo $value->id;?>" >
+                                  		<i class="fa fa-edit" aria-hidden="true"></i>
                                   	</a>
-                                  	<a href="<?php echo Yii::app()->createUrl('Promociones/Imagenes',array('id'=>$value->id));?>" class="btn btn-default btn_operaciones" data-action="U" data-id="<?php echo $value->id;?>" >
+                                  	<a href="<?php echo Yii::app()->createUrl('Promociones/Imagenes',array('id'=>$value->id));?>" class="btn btn-default btn_operaciones" data-action="G" data-id="<?php echo $value->id;?>" >
                                   		<i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                  	</a>
+                                  	<a href="<?php echo Yii::app()->createUrl('Promociones/Cuotas',array('id'=>$value->id));?>" title="Configurar Cuotas de Pago" class="btn btn-default btn_operaciones" data-action="C" data-id="<?php echo $value->id;?>" >
+                                  		<i class="fa fa-list-ul" aria-hidden="true"></i>
                                   	</a>
                                   </td>
                                 </tr>

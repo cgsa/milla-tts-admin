@@ -29,43 +29,13 @@
 
 
         <div id="sidebar-menu">
-            <ul>                
-				<?php 
-                if(!Yii::app()->user->isSuperAdmin && Yii::app()->user->checkAccess('USER-AGENTE')):
-				?>
-				<li>
-                    <a href="<?php echo Yii::app()->createUrl("/PanelAgentes/index");?>" class="waves-effect">
-                    	<i class="mdi mdi-home"></i><span>Inicio</span>
-                    </a>
-                </li>
-                <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-square-inc-cash"></i> <span> Gestión Deudas </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
-                    <ul class="list-unstyled">
-                        <li><a href="<?php echo Yii::app()->createUrl("/GestionDeudas/importar");?>">Importar Deudas</a></li>
-                        <li><a href="<?php echo Yii::app()->createUrl("/GestionDeudas/Preguntas");?>">Preguntas</a></li>
-                        <li><a href="<?php echo Yii::app()->createUrl("/GestionDeudas/etiquetas");?>">Etiquetas</a></li>
-                    </ul>
-                </li>
-
-                <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect">
-                        <i class="mdi mdi-wrench"></i> 
-                        <span> Herramientas </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span>
-                    </a>
-                    <ul class="list-unstyled">
-                        <li><a href="<?php echo Yii::app()->createUrl("/GestionHerramientas/");?>">Herramientas Disponibles</a></li>
-                        <li><a href="<?php echo Yii::app()->createUrl("/GestionHerramientas/Configuracion");?>">Configuración</a></li>
-                    </ul>
-                </li>
-				<?php 
-				endif;
-				?>  
+            <ul> 			 
 				
 				<?php 
 				/***
 				 * Bloque de enlaces administrativos.
 				 * */				
-                if(Yii::app()->user->isSuperAdmin || Yii::app()->user->checkAccess('USER-CANCELO')):
+                if(Yii::app()->user->isSuperAdmin || Yii::app()->user->checkAccess('USER-SYSTEM')):
                 ?>
 				<li>
                     <a href="<?php echo Yii::app()->createUrl("/PanelAdministrativo/index");?>" class="waves-effect">
@@ -78,9 +48,16 @@
                         <span>Panel</span> <span class="pull-right"><i class="mdi mdi-plus"></i></span>
                     </a>
                     <ul class="list-unstyled">
-                        <li><a href="<?php echo Yii::app()->createUrl("/Imagenes/admin");?>">Imagenes</a></li>
                         <li><a href="<?php echo Yii::app()->createUrl("/Banner/admin");?>">Banner</a></li>
+                        <?php 			
+                        if( Yii::app()->user->isSuperAdmin ):
+                        ?>
+                        	<li><a href="<?php echo Yii::app()->createUrl("/Configuracion/admin");?>">Configuración</a></li>
+                        <?php 
+                        endif;
+                        ?>
                         <li><a href="<?php echo Yii::app()->createUrl("/Destinos/admin");?>">Destinos</a></li>
+                        <li><a href="<?php echo Yii::app()->createUrl("/Imagenes/admin");?>">Imagenes</a></li>
                         <li><a href="<?php echo Yii::app()->createUrl("/Promociones/admin");?>">Promociones</a></li>
                     </ul>
                 </li>
