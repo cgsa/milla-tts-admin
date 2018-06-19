@@ -65,6 +65,7 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-square-inc-cash"></i> <span> Gestión Millas </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="<?php echo Yii::app()->createUrl("/Suscripciones/admin");?>">Suscripciones</a></li>
+                        <li><a href="<?php echo Yii::app()->createUrl("/PromocionUsuario/admin");?>">Promociones Usuarios</a></li>
                     </ul>
                 </li>
                 
