@@ -3,6 +3,123 @@
 $criteria=new CDbCriteria;
 $criteria->condition = "id_user =".$model->id_user;
 $usuario = UsuarioSistema::model()->find($criteria);
+
+Yii::app()->clientScript->registerScript('detalles', "
+    
+    
+    $('#datatable').dataTable();
+
+    $('body').delegate('.btn-operaciones','click',function()
+    {
+        var id = $(this).attr('data-id');
+        var action = $(this).attr('data-action');
+        var param = {'action': action,'id': id};
+        bloqueoPantalla();
+        
+        $.ajax(
+        {
+            url:        '".Yii::app()->createUrl('PromocionUsuario/Formulario')."',
+            type:       'POST',
+            data:       param,
+            dataType:   'JSON',
+            success:    function(_res)
+            {
+                desbloquePantalla();
+                if(_res.status)
+                {                   
+                    //swal( _res.mensaje );
+                    //location.reload();
+                    $('#modalDialogo').html(_res.formulario);
+                    $('#modalDialogo').modal({show:true})
+                }
+                else
+                {
+                    bootbox.alert(_res.mensaje);
+                    swal( _res.mensaje );
+                }
+            },
+            error: function(_error)
+            {
+                desbloquePantalla();
+                swal( 'Se produjó un error en el procesamiento los datos.' );
+            }
+        }); 
+
+        return false;
+
+    });
+
+
+    
+    $('body').delegate('.btn-procesar-datos','click',function()
+    {
+        var param = $('#pagos_promociones_form').serialize();
+        bloqueoPantalla();
+
+        $.ajax(
+        {
+            url: '".Yii::app()->createUrl('PromocionUsuario/Registrar')."',
+            type: 'POST',
+            data: param,
+            dataType: 'json',
+            success: function(_res)
+            {
+                desbloquePantalla();
+                if(_res.status)
+                {
+                    swal(_res.mensaje); 
+                    location.reload();
+                }
+                else
+                {
+                    swal(_res.mensaje);
+                    
+                }
+            },
+            error: function(_error)
+            {
+                desbloquePantalla();
+                swal( 'Se produjó un error al procesar los datos.' );
+            }
+        });
+
+
+        return false;
+
+    });
+
+
+
+    function bloqueoPantalla()
+    {
+        $.blockUI({ message: 'Espere un momento por favor...', css: { 
+            border: 'none', 
+            padding: '15px', 
+            backgroundColor: '#000', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            opacity: .5, 
+            color: '#fff' 
+        } }); 
+
+    }
+
+
+    function desbloquePantalla()
+    {
+        $(document).ready(function() 
+        {
+            $.unblockUI({
+                onUnblock: function(){
+                }
+            });
+        });
+    }
+
+
+");
+
+
 ?>
 
 <!-- Start Row -->  
@@ -87,7 +204,17 @@ $usuario = UsuarioSistema::model()->find($criteria);
                                 		<td><?php echo $value->reference_id;?></td>
                                 		<td><?php echo $value->cod_pago;?></td>
                                 		<td><?php echo date("d-m-Y", strtotime($value->fecha_pago));?></td>
-                                		<td></td>
+                                		<td>
+                                			<?php 
+                                			if($value->status != 1):
+                                			?>
+                                          	<a title="Cargar Pago" href="" class="btn btn-default btn-operaciones" data-action="C" data-id="<?php echo $value->id;?>" >
+                                          		<i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                          	</a>
+                                          	<?php 
+                                          	endif;
+                                          	?>
+                                		</td>
                                 	</tr>
                                 	<?php 
                                 	$i++;
@@ -115,3 +242,4 @@ $usuario = UsuarioSistema::model()->find($criteria);
             </div>
         </div>
     </div>
+	<div class="modal fade" id="modalDialogo" tabindex="-1" role="dialog"></div>

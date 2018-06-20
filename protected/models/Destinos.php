@@ -11,9 +11,11 @@
  * @property string $coodenadas
  * @property integer $status
  * @property string $fecha_registro
+ * @property string $hash
  *
  * The followings are the available model relations:
  * @property GaleriaDestino[] $galeriaDestinos
+ * @property Promociones[] $promociones
  */
 class Destinos extends CActiveRecord
 {
@@ -35,12 +37,12 @@ class Destinos extends CActiveRecord
 		return array(
 			array('nombre, ciudad', 'required'),
 			array('status', 'numerical', 'integerOnly'=>true),
-			array('nombre, ciudad, coodenadas', 'length', 'max'=>100),
+			array('nombre, ciudad, coodenadas, hash', 'length', 'max'=>100),
 		    array('descripcion, fecha_registro', 'safe'),
 		    array('fecha_registro', 'default','value'=>new CDbExpression('NOW()'),'on'=>'insert'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, nombre, ciudad, descripcion, coodenadas, status, fecha_registro', 'safe', 'on'=>'search'),
+			array('id, nombre, ciudad, descripcion, coodenadas, status, fecha_registro, hash', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,6 +55,7 @@ class Destinos extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'galeriaDestinos' => array(self::HAS_MANY, 'GaleriaDestino', 'id_destino'),
+			'promociones' => array(self::HAS_MANY, 'Promociones', 'id_lugar'),
 		);
 	}
 
@@ -62,13 +65,14 @@ class Destinos extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
+			'id' => 'Id',
 			'nombre' => 'Nombre',
 			'ciudad' => 'Ciudad',
 			'descripcion' => 'Descripcion',
 			'coodenadas' => 'Coodenadas',
 			'status' => 'Status',
 			'fecha_registro' => 'Fecha Registro',
+			'hash' => 'Hash',
 		);
 	}
 
@@ -97,6 +101,7 @@ class Destinos extends CActiveRecord
 		$criteria->compare('coodenadas',$this->coodenadas,true);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('fecha_registro',$this->fecha_registro,true);
+		$criteria->compare('hash',$this->hash,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -113,4 +118,18 @@ class Destinos extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	
+	public function beforeSave() {
+	    
+	    if (empty($this->hash))
+	    {
+	        $time = new CDbExpression('NOW()');
+	        $hash = md5($time.$this->nombre);
+	        $this->hash = $hash;
+	    }
+	    
+	    return parent::beforeSave();
+	}
+	
 }

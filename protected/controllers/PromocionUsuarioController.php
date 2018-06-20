@@ -75,31 +75,93 @@ class PromocionUsuarioController extends Controller
 			'model'=>$model,
 		));
 	}
-
+	
+	
 	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
+	 * View dialogo.
 	 */
-	public function actionDelete($id)
+	public function actionFormulario()
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	    try
+	    {
+	        if(isset($_POST))
+	        {
+	            switch ($_POST['action'])
+	            {
+	                case 'C':
+	                    $model = new PagosPromociones;
+	                    $result['status'] = true;
+	                    $result['formulario'] = $this->renderPartial('_cupones', array(
+	                        'model'=>$model,
+	                        'action'=>'C',
+	                        'id'=>$_POST['id']
+	                    ),true);
+	               break;
+	            }
+	        }
+	        else
+	        {
+	            throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	        }
+	        
+	    }
+	    catch (Exception $e)
+	    {
+	        $result['status'] = true;
+	        $result['mensaje'] = $e->getMessage();
+	    }
+	    
+	    die(json_encode($result));
 	}
-
+	
 	/**
-	 * Lists all models.
+	 * View dialogo.
 	 */
-	public function actionIndex()
+	public function actionRegistrar()
 	{
-		$dataProvider=new CActiveDataProvider('PromocionUsuario');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+	    try
+	    {
+	        $result = array();
+	        if( isset($_POST))
+	        {
+	            switch ($_POST['action'])
+	            {
+	                case 'C':
+	                    
+	                    if( isset($_POST['PagosPromociones']) )
+	                    {
+	                        $model = PagosPromociones::model()->find($_POST['id']);
+	                        $model->attributes = $_POST['PagosPromociones'];
+	                        
+	                        if($model->save())
+	                        {
+	                            $result['status'] = true;
+	                            $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	                        }
+	                        
+	                    }
+	                    else
+	                    {
+	                        throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	                    }
+	               break;
+	            }
+	        }
+	        else
+	        {
+	            throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	        }
+	        
+	    }
+	    catch (Exception $e)
+	    {
+	        $result['status'] = true;
+	        $result['mensaje'] = $e->getMessage();
+	    }
+	    
+	    die(json_encode($result));
 	}
+	
 
 	/**
 	 * Manages all models.
