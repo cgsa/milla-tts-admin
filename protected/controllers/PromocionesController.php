@@ -151,6 +151,7 @@ class PromocionesController extends Controller
 	 */
 	public function actionImagenes($id)
 	{
+	    $this->titulopagina = "Imagenes Promoción";
 	    $model = new GaleriaPromocion;
 	    $this->render('imagenes',array(
 	        'model'=>$model,

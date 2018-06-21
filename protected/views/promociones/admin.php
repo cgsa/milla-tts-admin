@@ -34,7 +34,6 @@ Yii::app()->clientScript->registerScript('promocion', "
                                   <th>Ciudad</th>
                                   <th>Nombre</th>
                                   <th>Millas</th>
-                                  <th>Cuotas</th>
                                   <th>F. Vencimiento</th>
                                   <th>Cant. Pasaje</th> 
                                   <th>Estatus</th>                                  
@@ -49,9 +48,8 @@ Yii::app()->clientScript->registerScript('promocion', "
                                 <tr>
                                   <td><?php echo $value->idLugar->nombre;?></td>
                                   <td><?php echo $value->titulo;?></td>
-                                  <td><?php echo $value->cant_millas;?></td>
-                                  <td><?php echo $value->cant_cuotas;?></td>
-                                  <td><?php echo $value->fecha_vencimiento;?></td>
+                                  <td><?php echo $value->total_millas;?></td>
+                                  <td><?php echo $value->fecha_fin;?></td>
                                   <td><?php echo $value->cant_pasajes;?></td>
                                   <td><?php echo $value->status;?></td>
                                   <td>

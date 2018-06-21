@@ -20,6 +20,8 @@
  */
 class PagosPromociones extends CActiveRecord
 {
+    
+    public $pagos;
 	/**
 	 * @return string the associated database table name
 	 */

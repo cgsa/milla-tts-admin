@@ -8,13 +8,9 @@
  * @property integer $id_lugar
  * @property string $titulo
  * @property string $descripcion
- * @property string $cant_millas
- * @property string $cant_cuotas
- * @property string $fecha_vencimiento
+ * @property integer $total_millas
  * @property integer $cant_pasajes
- * @property string $codigo_barra
  * @property integer $id_imagen
- * @property integer $visibilidad
  * @property integer $status
  * @property string $fecha_fin
  * @property string $fecha_registro
@@ -45,15 +41,14 @@ class Promociones extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_lugar, cant_millas, cant_cuotas, fecha_vencimiento', 'required'),
-			array('id_lugar, cant_pasajes, id_imagen, visibilidad, status', 'numerical', 'integerOnly'=>true),
-			array('titulo, codigo_barra, hash', 'length', 'max'=>100),
-			array('cant_millas, cant_cuotas', 'length', 'max'=>20),
+			array('id_lugar,total_millas', 'required'),
+			array('id_lugar, total_millas, cant_pasajes, id_imagen, status', 'numerical', 'integerOnly'=>true),
+			array('titulo, hash', 'length', 'max'=>100),
 		    array('descripcion, fecha_fin, fecha_registro', 'safe'),
 		    array('fecha_registro', 'default','value'=>new CDbExpression('NOW()'),'on'=>'insert'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_lugar, titulo, descripcion, cant_millas, cant_cuotas, fecha_vencimiento, cant_pasajes, codigo_barra, id_imagen, visibilidad, status, fecha_fin, fecha_registro, hash', 'safe', 'on'=>'search'),
+			array('id, id_lugar, titulo, descripcion, total_millas, cant_pasajes, id_imagen, status, fecha_fin, fecha_registro, hash', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,21 +73,17 @@ class Promociones extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-	    return array(
-	        'id' => 'ID',
-	        'id_lugar' => 'Ciudad',
-	        'titulo' => 'Nombre',
-	        'descripcion' => 'Descripcion',
-	        'cant_millas' => 'Cant Millas',
-	        'cant_cuotas' => 'Cant Cuotas',
-	        'fecha_vencimiento' => 'Fecha Vencimiento',
-	        'cant_pasajes' => 'Cant Pasajes',
-	        'codigo_barra' => 'Codigo Barra',
-	        'id_imagen' => 'Imagen',
-	        'visibilidad' => 'Visibilidad',
-	        'status' => 'Status',
-	        'fecha_fin' => 'Fecha Fin',
-	        'fecha_registro' => 'Fecha Registro',
+		return array(
+			'id' => 'ID',
+			'id_lugar' => 'Ciudad',
+			'titulo' => 'Titulo',
+			'descripcion' => 'Descripción',
+			'total_millas' => 'Total Millas',
+			'cant_pasajes' => 'Cant Pasajes',
+			'id_imagen' => 'Imagen',
+			'status' => 'Status',
+			'fecha_fin' => 'Fecha Fin',
+			'fecha_registro' => 'Fecha Registro',
 			'hash' => 'Hash',
 		);
 	}
@@ -119,13 +110,9 @@ class Promociones extends CActiveRecord
 		$criteria->compare('id_lugar',$this->id_lugar);
 		$criteria->compare('titulo',$this->titulo,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
-		$criteria->compare('cant_millas',$this->cant_millas,true);
-		$criteria->compare('cant_cuotas',$this->cant_cuotas,true);
-		$criteria->compare('fecha_vencimiento',$this->fecha_vencimiento,true);
+		$criteria->compare('total_millas',$this->total_millas);
 		$criteria->compare('cant_pasajes',$this->cant_pasajes);
-		$criteria->compare('codigo_barra',$this->codigo_barra,true);
 		$criteria->compare('id_imagen',$this->id_imagen);
-		$criteria->compare('visibilidad',$this->visibilidad);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('fecha_fin',$this->fecha_fin,true);
 		$criteria->compare('fecha_registro',$this->fecha_registro,true);

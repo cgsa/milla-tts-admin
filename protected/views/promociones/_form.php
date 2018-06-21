@@ -89,12 +89,13 @@ function desbloquePantalla()
                     		?>                           
                             <?php echo $form->error($model,'id_lugar'); ?>
                         </div>
-                    </div>
+                    </div> 
+                    
                     <div class="form-group">
-                        <?php echo $form->labelEx($model,'cant_millas',array('class'=>'col-sm-3 control-label')); ?>
-                        <div class="col-sm-9">
-                            <?php echo $form->textField($model,'cant_millas',array('class'=>'form-control','size'=>60,'maxlength'=>20)); ?>
-							<?php echo $form->error($model,'cant_millas'); ?>
+                        <?php echo $form->labelEx($model,'total_millas',array('class'=>'col-sm-3 control-label')); ?>
+                        <div class="col-sm-9">                            
+                            <?php echo $form->textField($model,'total_millas',array('class'=>'form-control','size'=>60,'maxlength'=>100)); ?>
+							<?php echo $form->error($model,'total_millas'); ?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -102,49 +103,6 @@ function desbloquePantalla()
                         <div class="col-sm-9">
                             <?php echo $form->textField($model,'cant_pasajes',array('class'=>'form-control','size'=>60,'maxlength'=>20)); ?>
 							<?php echo $form->error($model,'cant_pasajes'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <?php echo $form->labelEx($model,'cant_cuotas',array('class'=>'col-sm-3 control-label')); ?>
-                        <div class="col-sm-9">
-                            <?php echo $form->textField($model,'cant_cuotas',array('class'=>'form-control','size'=>60,'maxlength'=>20)); ?>
-							<?php echo $form->error($model,'cant_cuotas'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <?php echo $form->labelEx($model,'codigo_barra',array('class'=>'col-sm-3 control-label')); ?>
-                        <div class="col-sm-9">
-                            <?php echo $form->textField($model,'codigo_barra',array('class'=>'form-control','size'=>60,'maxlength'=>100)); ?>
-							<?php echo $form->error($model,'codigo_barra'); ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <?php echo $form->labelEx($model,'fecha_vencimiento',array('class'=>'col-sm-3 control-label')); ?>
-                        <div class="col-sm-9">
-                            <?php 
-                        	$this->widget('zii.widgets.jui.CJuiDatePicker', array(
-                        	    'model' => $model,
-                        	    'attribute' => 'fecha_vencimiento',
-                        	    'language' => 'es',
-                        	    'options' => array(
-                        	        'dateFormat' => 'yy-mm-dd',     // format of "2012-12-25"
-                        	        'showOtherMonths' => true,      // show dates in other months
-                        	        'selectOtherMonths' => true,    // can seelect dates in other months
-                        	        'changeYear' => true,           // can change year
-                        	        'changeMonth' => true,          // can change month
-                        	        //'yearRange' => '2000:2099',     // range of year
-                        	        'minDate' => '+1d',      // minimum date
-                        	        //'maxDate' => '+1d',      // maximum date
-                        	        'showButtonPanel' => true,      // show button panel
-                        	    ),
-                        	    'htmlOptions' => array(
-                        	        'size' => '30',         // textField size
-                        	        'maxlength' => '10',    // textField maxlength
-                        	        'class' => 'form-control',
-                        	    ),
-                        	));
-                        	?>                            
-							<?php echo $form->error($model,'fecha_vencimiento'); ?>
                         </div>
                     </div>
                     <div class="form-group">

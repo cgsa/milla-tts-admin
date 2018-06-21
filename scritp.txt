@@ -172,4 +172,13 @@ ALTER TABLE db_millas_tts.promociones ADD hash varchar(100) NULL ;
 ALTER TABLE db_millas_tts.destinos ADD hash varchar(100) NULL ;
 ALTER TABLE db_millas_tts.banner MODIFY COLUMN id_contralador VARCHAR(100) NULL ;
 
+ALTER TABLE db_millas_tts.promociones DROP COLUMN cant_millas ;
+ALTER TABLE db_millas_tts.promociones DROP COLUMN cant_cuotas ;
+ALTER TABLE db_millas_tts.promociones DROP COLUMN fecha_vencimiento ;
+ALTER TABLE db_millas_tts.promociones DROP COLUMN codigo_barra ;
+ALTER TABLE db_millas_tts.promociones DROP COLUMN visibilidad ;
+
+ALTER TABLE db_millas_tts.promociones ADD total_millas SMALLINT NULL ;
+ALTER TABLE db_millas_tts.promociones CHANGE total_millas total_millas SMALLINT NULL AFTER descripcion ;
+
 

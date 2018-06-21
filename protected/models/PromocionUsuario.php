@@ -21,6 +21,8 @@
  */
 class PromocionUsuario extends CActiveRecord
 {
+    
+    public $compras;
 	/**
 	 * @return string the associated database table name
 	 */

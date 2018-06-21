@@ -6,7 +6,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl."/assets/8c8cd6
 Yii::app()->clientScript->registerScript('configuracion', "
 
     jQuery.mask.definitions={'n':'\x5B0\x2D9\x5D'};
-    jQuery('#Configuracion_valor_millas').mask('n.nnn,nn');
+    jQuery('#Configuracion_valor_millas').mask('n,nn');
 ");
 //$model->isNewRecord
 ?>

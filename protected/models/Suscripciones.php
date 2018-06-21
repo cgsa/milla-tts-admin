@@ -11,6 +11,10 @@
  */
 class Suscripciones extends CActiveRecord
 {
+    
+    public $suscriptos;
+    
+    
 	/**
 	 * @return string the associated database table name
 	 */
