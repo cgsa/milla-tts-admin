@@ -48,7 +48,7 @@ class BannerController extends Controller
 		    $model->attributes=$_POST['Banner'];
 		    $criteria=new CDbCriteria;
 		    $criteria->condition = "controlador = '".$model->controlador."'";
-		    $criteria->condition .= " AND id_contralador = ".$model->id_contralador;
+		    $criteria->condition .= " AND id_contralador = '".$model->id_contralador."'";
 		    $rows = $model->find($criteria);
 		    //var_dump($rows);die;
 		    if( is_null($rows) )
@@ -124,7 +124,7 @@ class BannerController extends Controller
 			$model2 = new Imagenes;
 			$criteria=new CDbCriteria;
 			$criteria->condition = "controlador = '".$model->controlador."'";
-			$criteria->condition .= " AND id_contralador = ".$model->id_contralador;
+			$criteria->condition .= " AND id_contralador = '".$model->id_contralador."'";
 			$criteria->condition .= " AND id <> ".$id;
 			$rows = $model->find($criteria);
 			
@@ -306,7 +306,7 @@ class BannerController extends Controller
 	            
 	            $select = "<option value='' >--Seleccione--</option>";
 	            foreach ($rows as $key => $value) {
-	                $select .= "<option value='".$value->id."' >".$value->$atributo."</option>";
+	                $select .= "<option value='".$value->hash."' >".$value->$atributo."</option>";
 	            }	 
 	            
 	            $result['status'] = true;

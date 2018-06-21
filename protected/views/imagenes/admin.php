@@ -276,6 +276,9 @@ $baseUrl = Yii::app()->request->baseUrl;
             		<?php 
               	
                   	$criteria=new CDbCriteria;
+                  	$criteria->join = "LEFT JOIN galeria_promocion gp ON gp.id_imagen = t.id"; 
+                  	$criteria->join .= " LEFT JOIN galeria_destino gd ON gd.id_imagen = t.id"; 
+                  	$criteria->condition = "gp.id_imagen IS NULL AND gd.id_imagen IS NULL"; 
                   	$criteria->order = "id DESC";          	
                   	
                   	$rows = $model->findAll($criteria);

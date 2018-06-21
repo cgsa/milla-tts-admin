@@ -127,12 +127,12 @@ function desbloquePantalla()
                     	        case 'destinos':
                     	            $array = Destinos::model()->findAll();
                     	            $list = CHtml::listData($array,
-                    	                'id', 'nombre');
+                    	                'hash', 'nombre');
                     	        break;                    	        
                     	        case 'promociones':
                     	            $array = Promociones::model()->findAll();
                     	            $list = CHtml::listData($array,
-                    	                'id', 'titulo'); 
+                    	                'hash', 'titulo'); 
                     	        break;
                     	    }
                     	    

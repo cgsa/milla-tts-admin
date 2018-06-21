@@ -11,7 +11,7 @@
  * @property integer $status
  * @property string $fecha_registro
  * @property string $controlador
- * @property integer $id_contralador
+ * @property string $id_contralador
  *
  * The followings are the available model relations:
  * @property Imagenes $idImagen
@@ -20,6 +20,7 @@ class Banner extends CActiveRecord
 {
     
     public $Filedata;
+    
     
 	/**
 	 * @return string the associated database table name
@@ -38,8 +39,8 @@ class Banner extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_imagen, nombre', 'required'),
-			array('id_imagen, status, id_contralador', 'numerical', 'integerOnly'=>true),
-			array('nombre, descripcion', 'length', 'max'=>100),
+			array('id_imagen, status', 'numerical', 'integerOnly'=>true),
+			array('nombre, descripcion, id_contralador', 'length', 'max'=>100),
 			array('controlador', 'length', 'max'=>30),
 		    array('fecha_registro', 'safe'),
 		    array('Filedata', 'file', 'types'=>'jpg,jpeg,gif,png', 'safe' => false,'allowEmpty' => true),
@@ -49,7 +50,6 @@ class Banner extends CActiveRecord
 			array('id, id_imagen, nombre, descripcion, status, fecha_registro, controlador, id_contralador', 'safe', 'on'=>'search'),
 		);
 	}
-	
 
 	/**
 	 * @return array relational rules.
@@ -68,15 +68,15 @@ class Banner extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'id' => 'ID',
-			'id_imagen' => 'Id Imagen',
-			'nombre' => 'Nombre',
-			'descripcion' => 'Descripcion',
-			'status' => 'Status',
-			'fecha_registro' => 'Fecha Registro',
-			'controlador' => 'Controlador',
-			'id_contralador' => 'Valor',
+	    return array(
+	        'id' => 'ID',
+	        'id_imagen' => 'Imagen',
+	        'nombre' => 'Nombre',
+	        'descripcion' => 'Descripción',
+	        'status' => 'Status',
+	        'fecha_registro' => 'Fecha Registro',
+	        'controlador' => 'Controlador',
+	        'id_contralador' => 'Publicación',
 		);
 	}
 
@@ -105,7 +105,7 @@ class Banner extends CActiveRecord
 		$criteria->compare('status',$this->status);
 		$criteria->compare('fecha_registro',$this->fecha_registro,true);
 		$criteria->compare('controlador',$this->controlador,true);
-		$criteria->compare('id_contralador',$this->id_contralador);
+		$criteria->compare('id_contralador',$this->id_contralador,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
