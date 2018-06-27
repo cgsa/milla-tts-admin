@@ -29,6 +29,11 @@ $(function() {
 });
 
 
+$('#modalImportar').on('hidden.bs.modal', function () {
+    location.reload();
+});
+
+
 $('.cls_nombrar').click(function()
 {
     var _id = $(this).attr('data-id');
@@ -60,6 +65,63 @@ $('.cls_nombrar').click(function()
         }
 
     });
+});
+
+
+$('body').delegate('#Imagenes_seleccion','change',function()
+{
+    var _selection = $(this).find('option:selected').val();
+    $('#banner_block').hide();
+    $('#promociones_block').hide();
+
+    switch(_selection)
+    {
+        case 'B':
+            $('#hdd_action').val('B');
+            $('#banner_block').show();
+        break;
+        case 'P':
+            $('#hdd_action').val('P');
+            $('#promociones_block').show();
+        break;
+    }
+
+});
+
+
+$('body').delegate('#Banner_controlador','change',function()
+{
+
+    var action = $(this).find('option:selected').val();
+    var id = $(this).attr('data-id');
+    var param = {'action': action};
+    bloqueoPantalla();
+    
+    $.ajax(
+    {
+        url:        '".Yii::app()->createUrl('Banner/combos')."',
+        type:       'POST',
+        data:       param,
+        dataType:   'JSON',
+        success:    function(_res)
+        {
+            desbloquePantalla();
+            if(_res.status)
+            {
+                $('#Banner_id_contralador').html(_res.combo);
+            }
+            else
+            {
+                swal( _res.mensaje );
+            }
+        },
+        error: function(_error)
+        {
+            desbloquePantalla();
+            swal( 'Se produjó un error en el procesamiento los datos.' );
+        }
+    });
+    
 });
 
 
@@ -198,7 +260,7 @@ function enviarParam(param)
             if(_res.status)
             {                   
                 swal( _res.mensaje );
-                //location.reload();
+                location.reload();
             }
             else
             {
@@ -289,7 +351,6 @@ $baseUrl = Yii::app()->request->baseUrl;
                       			<img width="60%" src="<?php echo $baseUrl."/upload/img/".$value->path;?>" />
                       		</div>
                       		<div class="col-md-12">
-                      			<input data-id="<?php echo $value->id;?>" type="checkbox" name="chk_imagenes[]" class="chk_imagenes" />
                       			<a data-id="<?php echo $value->id;?>" class="cls_nombrar" style="cursor: pointer;" ><i class="fa fa-bars"></i></a>
                       			<a data-id="<?php echo $value->id;?>" class="bt-operaciones" data-action="E" style="cursor: pointer;" ><i class="fa fa-trash"></i></a>                      			
                       		</div>

@@ -171,6 +171,52 @@ class ImagenesController extends Controller
 	                    {
 	                        throw new Exception('Se ha producido una error al intentar realizar la acción.');
 	                    }
+	                    break;
+	                case 'B':
+	                    $model = new Banner;
+	                    $model->attributes=$_POST['Banner'];
+	                    $model->id_imagen = $_POST['id'];	                    
+	                    
+	                    $criteria=new CDbCriteria;
+	                    $criteria->condition = "controlador = '".$model->controlador."'";
+	                    $criteria->condition .= " AND id_contralador = '".$model->id_contralador."'";
+	                    $rows = $model->find($criteria);
+	                    //var_dump($rows);die;
+	                    if( is_null($rows) )
+	                    {
+	                        if($model->save())
+	                        {
+	                            
+	                            $result['status'] = true;
+	                            $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	                        }
+	                        else
+	                        {
+	                            throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	                        }
+	                        
+	                    }
+	                    else
+	                    {
+	                        throw new CHttpException(401,'Ya esta registrado un banner con este enlace.');
+	                    }
+	                    
+	                    
+	                    break;
+	                case 'P':
+	                    $model = new Promociones;
+	                    $model->attributes=$_POST['Promociones'];
+	                    $model->id_imagen = $_POST['id'];
+	                    if($model->save())
+	                    {
+	                        
+	                        $result['status'] = true;
+	                        $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	                    }
+	                    else
+	                    {
+	                        throw new Exception('Se ha producido una error al intentar realizar la acción.');
+	                    }
 	               break;
 	            }
 	        }
@@ -203,23 +249,17 @@ class ImagenesController extends Controller
 	            switch ($_POST['action'])
 	            {
 	                case 'N':
-	                    $model = $this->loadModel($_POST['id']);;
+	                    $this->layout = "dialogo";
+	                    $model = $this->loadModel($_POST['id']);
+	                    $banner = new Banner;
+	                    $promo = new Promociones;
 	                    $result['status'] = true;
-	                    $result['formulario'] = $this->renderPartial('_form', array(
+	                    $result['formulario'] = $this->render('_form', array(
 	                        'model'=>$model,
-	                        'action'=>'U',
-	                        'id'=>$_POST['id']
-	                    ),true);
-	               break;
-	               case 'G':
-	                    $model = new Galerias;
-	                    $imagen = new Imagenes;
-	                    $result['status'] = true;
-	                    $result['formulario'] = $this->renderPartial('_galeria', array(
-	                        'model'=>$model,
-	                        'imagen'=>$imagen,
-	                        'action'=>'G',
-	                        'ids'=>$_POST['ids']
+	                        'action'=>'B',
+	                        'id'=>$_POST['id'],
+	                        'banner'=>$banner,
+	                        'promo'=>$promo
 	                    ),true);
 	               break;
 	            }

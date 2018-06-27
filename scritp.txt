@@ -181,4 +181,5 @@ ALTER TABLE db_millas_tts.promociones DROP COLUMN visibilidad ;
 ALTER TABLE db_millas_tts.promociones ADD total_millas SMALLINT NULL ;
 ALTER TABLE db_millas_tts.promociones CHANGE total_millas total_millas SMALLINT NULL AFTER descripcion ;
 
+ALTER TABLE db_millas_tts.pagos_promociones ADD fecha_pago2 DATE NULL ;
 

@@ -21,6 +21,10 @@ class Imagenes extends CActiveRecord
 {
     
     public $Filedata;
+    
+    
+    public $seleccion;
+    
 	/**
 	 * @return string the associated database table name
 	 */
@@ -74,7 +78,8 @@ class Imagenes extends CActiveRecord
 			'thumb' => 'Thumb',
 			'crop' => 'Crop',
 			'nombre' => 'Nombre',
-			'es_banner' => 'Es Banner',
+		    'es_banner' => 'Es Banner',
+		    'seleccion' => 'Selección',
 		);
 	}
 	

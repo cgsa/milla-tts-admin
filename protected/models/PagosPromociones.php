@@ -13,6 +13,7 @@
  * @property string $extra
  * @property integer $id_user
  * @property integer $status
+ * @property string $fecha_pago2
  *
  * The followings are the available model relations:
  * @property CrugeUser $idUser
@@ -22,6 +23,8 @@ class PagosPromociones extends CActiveRecord
 {
     
     public $pagos;
+    
+    
 	/**
 	 * @return string the associated database table name
 	 */
@@ -41,10 +44,10 @@ class PagosPromociones extends CActiveRecord
 			array('id_promocion_usuario, cod_cupon, fecha_pago', 'required'),
 			array('id_promocion_usuario, id_user, status', 'numerical', 'integerOnly'=>true),
 			array('cod_cupon, cod_pago, reference_id', 'length', 'max'=>100),
-			array('extra', 'safe'),
+			array('extra, fecha_pago2', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_promocion_usuario, cod_cupon, fecha_pago, cod_pago, reference_id, extra, id_user, status', 'safe', 'on'=>'search'),
+			array('id, id_promocion_usuario, cod_cupon, fecha_pago, cod_pago, reference_id, extra, id_user, status, fecha_pago2', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,6 +79,7 @@ class PagosPromociones extends CActiveRecord
 			'extra' => 'Extra',
 			'id_user' => 'Id User',
 			'status' => 'Status',
+			'fecha_pago2' => 'Fecha Pago2',
 		);
 	}
 
@@ -106,6 +110,7 @@ class PagosPromociones extends CActiveRecord
 		$criteria->compare('extra',$this->extra,true);
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('status',$this->status);
+		$criteria->compare('fecha_pago2',$this->fecha_pago2,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
