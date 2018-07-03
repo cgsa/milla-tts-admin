@@ -8,6 +8,12 @@ class SuscripcionesController extends Controller
      */
     public $layout='//layouts/columnadminnew';
     
+    
+    public $tituloMail = "";
+    
+    
+    public $asunto = "";
+    
     /**
      * @return array action filters
      */
@@ -28,6 +34,54 @@ class SuscripcionesController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+	}
+	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionEnviarPromociones()
+	{
+	    
+	    try 
+	    {
+	        if( $_POST && $_POST['action'] == 'DP' )
+	        {
+	            $this->layout = "dialogo";
+	            $this->tituloMail = "Boletín de Promociones";
+	            $this->asunto = "Boletín de Promociones Mensual";
+	            $content = $this->renderPartial('_mail',array(
+	                //'model'=>$this->loadModel($id),
+	            ),true);
+	            
+	            $criteria=new CDbCriteria;
+	            $criteria->condition = "status = 1";
+	            $rows = Suscripciones::model()->findAll($criteria);
+	            
+	            foreach ($rows as $key =>$value)
+	            {
+	                $this->sendMessage($value->email, $content);
+	            }
+	            
+	            $result['status'] = true;
+	            
+	        }
+	        else
+	        {
+	            throw new Exception("Se ha producido un error inesperado");
+	        }
+	    } 
+	    catch (Exception $e) 
+	    {
+	        
+	        $result['status'] = false;
+	        $result['mensaje'] = $e->getMessage();
+	        
+	    }
+	    
+	    header('Content-type: application/json');
+	    die(json_encode($result));
+	    
 	}
 
 	/**
@@ -134,6 +188,30 @@ class SuscripcionesController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+	
+	
+	private function sendMessage( $email,$body)
+	{
+	    Yii::import('application.extensions.phpmailer.JPhpMailer');
+	    
+	    $mail = new JPhpMailer;
+	    $mail->IsSMTP();
+	    $mail->Host = 'ssl://smtp.gmail.com';
+	    $mail->Port = 465;
+	    $mail->SMTPAuth = true;
+	    $mail->Username = 'edwin.zapata@contactogarantido.com';
+	    $mail->Password = 'garantido414';
+	    $mail->CharSet = 'utf-8';
+	    $mail->SMTPDebug  = 0;
+	    $mail->SetFrom('info@crediviajes.coppercu.com', $this->tituloMail);
+	    $mail->Subject = $this->asunto;
+	    $mail->AltBody = $this->asunto;
+	    $mail->MsgHTML($body);
+	    $mail->AddAddress($email, $this->tituloMail);
+	    //$mail->AddBCC($email2,$config->titulo);
+	    return $mail->Send();
+	}
+	
 
 	/**
 	 * Performs the AJAX validation.

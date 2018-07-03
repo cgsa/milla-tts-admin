@@ -6,6 +6,69 @@ Yii::app()->clientScript->registerScript('suscripciones', "
     
     
     $('#datatable').dataTable();
+
+    $('.btn-difundir').click(function()
+    {
+        var _param = {'action':$(this).attr('data-action')};
+        bloqueoPantalla();
+
+        $.ajax(
+        {
+            url:        '".Yii::app()->createUrl('Suscripciones/EnviarPromociones')."',
+            type:       'POST',
+            data:       _param,
+            dataType:   'JSON',
+            success:    function(_res)
+            {
+                desbloquePantalla();
+                if(_res.status)
+                {
+                    swal( _res.mensaje );
+                    location.reload();
+                }
+                else
+                {
+                    swal( _res.mensaje );
+                }
+            },
+            error: function(_error)
+            {
+                desbloquePantalla();
+                swal( 'Se produjó un error en el procesamiento los datos.' );
+            }
+    
+        });
+
+    });
+    
+
+
+    
+    function bloqueoPantalla()
+    {
+        $.blockUI({ message: 'Espere un momento por favor...', css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
+        } });
+        
+    }
+        
+        
+    function desbloquePantalla()
+    {
+        $(document).ready(function()
+        {
+            $.unblockUI({
+                onUnblock: function(){
+                }
+            });
+        });
+    }
     
 ");
 ?>
@@ -16,11 +79,14 @@ Yii::app()->clientScript->registerScript('suscripciones', "
         <div class="panel panel-primary">
             <div class="panel-body">
                 <div class="row">
-                	<div class="col-xs-6 col-sm-3 m-b-30">
+                	<div class="col-xs-6 col-sm-6 m-b-30">
                         <div class="btn-group">
                             <a href="<?php echo Yii::app()->createUrl('Suscripciones/Create');?>" class="btn btn-primary waves-effect">
                             	Nueva Suscripcion
-                            </a>                              
+                            </a> 
+                            <button type="button" data-toggle="tooltip" data-action="DP" class="btn btn-success waves-effect btn-difundir">
+                            	Difundir Promociones
+                            </button>                           
                         </div>
                     </div>
                 </div>

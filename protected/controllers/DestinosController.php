@@ -120,7 +120,7 @@ class DestinosController extends Controller
 	                        'id'=>$_POST['id'],
 	                        'destino'=>$_POST['destino'],
 	                    ),true);
-	               break;
+	                break;
 	            }
 	        }
 	        else
@@ -137,6 +137,24 @@ class DestinosController extends Controller
 	    
 	    die(json_encode($result));
 	}
+	
+	
+	
+	public function establecerActivos( $attr, $post )
+	{
+	    if( isset($post['id']) )
+	    {
+	        $model = GaleriaDestino::model()->findByPk($post['id']);
+	        $model->$attr = $post['destino'];
+	        if($model->save())
+	        {
+	            $result['status'] = true;
+	            $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	            return (array)$result;
+	        }
+	    }
+	}
+	
     
     /**
      * View dialogo.
@@ -172,6 +190,12 @@ class DestinosController extends Controller
                         {
                             throw new Exception('Se ha producido una error al intentar realizar la acción.');
                         }
+                    break;
+                    case 'S':
+                        $result = $this->establecerActivos("es_active", $_POST);
+                    break;
+                    case 'E':
+                        $result = $this->delete( $_POST['id'] );
                     break;
                     case 'B':
                         
@@ -241,13 +265,23 @@ class DestinosController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function delete($id)
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	    $model = GaleriaDestino::model()->findByPk($id)->delete();
+        
+	    if($model===null)
+	    {
+	        $result['status'] = false;
+	        $result['mensaje'] = 'Se ha producido un error inesperado.';	        
+	    }
+	    else
+	    {
+	        $result['status'] = true;
+	        $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	    }	
+	    
+	    return (array)$result;
+		
 	}
 
 	/**

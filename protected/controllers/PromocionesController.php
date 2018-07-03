@@ -256,6 +256,9 @@ class PromocionesController extends Controller
 	                case 'S':
 	                   $result = $this->establecerActivos("es_active", $_POST);    
 	                break;
+	                case 'E':
+	                    $result = $this->delete( $_POST['id'] );
+	                break;
 	                case 'IC':
 	                case 'UC':                    
 	                    
@@ -369,6 +372,30 @@ class PromocionesController extends Controller
 	        
 	    }
 	    
+	    
+	}
+	
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function delete($id)
+	{
+	    $model = GaleriaDestino::model()->findByPk($id)->delete();
+	    
+	    if($model===null)
+	    {
+	        $result['status'] = false;
+	        $result['mensaje'] = 'Se ha producido un error inesperado.';
+	    }
+	    else
+	    {
+	        $result['status'] = true;
+	        $result['mensaje'] = 'El registro se realizó de manera satisfactoria.';
+	    }
+	    
+	    return (array)$result;
 	    
 	}
 

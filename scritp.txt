@@ -183,3 +183,6 @@ ALTER TABLE db_millas_tts.promociones CHANGE total_millas total_millas SMALLINT 
 
 ALTER TABLE db_millas_tts.pagos_promociones ADD fecha_pago2 DATE NULL ;
 
+ALTER TABLE db_millas_tts.galeria_destino ADD es_active SMALLINT DEFAULT 0 NULL ;
+
+

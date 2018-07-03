@@ -241,9 +241,10 @@ $baseUrl = Yii::app()->request->baseUrl;
                       				endif;
                       				?>
                       			</a>
-                      			<a data-destino="<?php echo $id;?>" data-action="S" data-id="<?php echo $value->id;?>" title="Marcar como principal" class="btn-operaciones" style="cursor: pointer;" >
+                      			<?php $active = ($value->es_active == 0)? 1 : 0;  ?>
+                      			<a data-destino="<?php echo $active;?>" data-action="S" data-id="<?php echo $value->id;?>" title="Hacer Visible" class="btn-operaciones" style="cursor: pointer;" >
                       				<?php 
-                      				if($value->es_principal == 0):
+                      				if($value->es_active == 0):
                       				?> 
                       					<i class="fa fa-check-square-o"></i>
                       				<?php 
@@ -253,6 +254,9 @@ $baseUrl = Yii::app()->request->baseUrl;
                       				<?php 
                       				endif;
                       				?>
+                      			</a>
+                      			<a data-destino="" data-id="<?php echo $value->id;?>" class="btn-operaciones" data-action="E" style="cursor: pointer;" >
+                      				<i class="fa fa-trash"></i>
                       			</a>                      			                    			
                       		</div>
                         </div>                        
