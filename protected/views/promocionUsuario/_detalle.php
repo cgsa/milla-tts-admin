@@ -34,7 +34,7 @@ Yii::app()->clientScript->registerScript('detalles', "
                 }
                 else
                 {
-                    bootbox.alert(_res.mensaje);
+                    //bootbox.alert(_res.mensaje);
                     swal( _res.mensaje );
                 }
             },
@@ -68,7 +68,7 @@ Yii::app()->clientScript->registerScript('detalles', "
                 if(_res.status)
                 {
                     swal(_res.mensaje); 
-                    location.reload();
+                    //location.reload();
                 }
                 else
                 {

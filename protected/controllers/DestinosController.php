@@ -24,6 +24,7 @@ class DestinosController extends Controller
 	 */
 	public function actionView($id)
 	{
+	    $this->titulopagina = "Vista Destino";
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -36,6 +37,7 @@ class DestinosController extends Controller
 	public function actionCreate()
 	{
 		$model=new Destinos;
+		$this->titulopagina = "Nuevo Destino";
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -58,6 +60,7 @@ class DestinosController extends Controller
 	 */
 	public function actionImagenes($id)
 	{
+	    $this->titulopagina = "Galería Destino";
 	    $model = new GaleriaDestino();
 	    $this->render('imagenes',array(
 	        'model'=>$model,
@@ -244,6 +247,7 @@ class DestinosController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$this->titulopagina = "Actualizar Destino";
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -300,6 +304,7 @@ class DestinosController extends Controller
 	 */
 	public function actionAdmin()
 	{
+	    $this->titulopagina = "Destinos";
 		$model=new Destinos('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Destinos']))

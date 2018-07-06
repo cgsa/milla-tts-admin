@@ -62,13 +62,17 @@ class SiteController extends Controller
 	private function settingUsuario()
 	{
 	    
-	    if(Yii::app()->user->isSuperAdmin)
+	    if(Yii::app()->user->isSuperAdmin || Yii::app()->user->checkAccess('USER-SYSTEM'))
 	    {
 	        Yii::app()->user->getField('nombreuser');
 	        Yii::app()->user->getField('apellidouser');
 	        Yii::app()->user->setState('usersistema', Yii::app()->user->getField('nombreuser'));
 	        $this->redirect(Yii::app()->createUrl('/PanelAdministrativo/index'));
 	        
+	    }
+	    else
+	    {
+	        $this->redirect(Yii::app()->createUrl('/Site/Logout'));
 	    }
 	    
 	    return false;

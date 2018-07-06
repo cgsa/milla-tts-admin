@@ -130,7 +130,7 @@ class PromocionUsuarioController extends Controller
 	                    
 	                    if( isset($_POST['PagosPromociones']) )
 	                    {
-	                        $model = PagosPromociones::model()->find($_POST['id']);
+	                        $model = PagosPromociones::model()->findByPk($_POST['id']);
 	                        $model->attributes = $_POST['PagosPromociones'];
 	                        
 	                        if($model->save())
