@@ -12,6 +12,7 @@
  * @property string $total_millas
  * @property string $monto_total
  * @property integer $status
+ * @property string $codigo_agencia
  *
  * The followings are the available model relations:
  * @property PagosPromociones[] $pagosPromociones
@@ -23,6 +24,8 @@ class PromocionUsuario extends CActiveRecord
 {
     
     public $compras;
+    
+    
 	/**
 	 * @return string the associated database table name
 	 */
@@ -42,10 +45,11 @@ class PromocionUsuario extends CActiveRecord
 			array('id_cuota_promocion, id_user, id_promocion, total_millas, monto_total', 'required'),
 			array('id_cuota_promocion, id_user, id_promocion, status', 'numerical', 'integerOnly'=>true),
 			array('total_millas, monto_total', 'length', 'max'=>15),
+			array('codigo_agencia', 'length', 'max'=>100),
 			array('fecha_registro', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_cuota_promocion, id_user, fecha_registro, id_promocion, total_millas, monto_total, status', 'safe', 'on'=>'search'),
+			array('id, id_cuota_promocion, id_user, fecha_registro, id_promocion, total_millas, monto_total, status, codigo_agencia', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,6 +82,7 @@ class PromocionUsuario extends CActiveRecord
 			'total_millas' => 'Total Millas',
 			'monto_total' => 'Monto Total',
 			'status' => 'Status',
+			'codigo_agencia' => 'Codigo Agencia',
 		);
 	}
 
@@ -107,29 +112,11 @@ class PromocionUsuario extends CActiveRecord
 		$criteria->compare('total_millas',$this->total_millas,true);
 		$criteria->compare('monto_total',$this->monto_total,true);
 		$criteria->compare('status',$this->status);
+		$criteria->compare('codigo_agencia',$this->codigo_agencia,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-	
-	
-	
-	public function getStatusLiteral($status)
-	{
-	    $result = "";
-	    switch ($status) {
-	        case 0:
-	            $result = "Pendiente";
-	        break;	        
-	        case 1:
-	            $result = "Comprado";
-	        break;
-	        default:
-	            $result = "Cancelado";
-	    }
-	    
-	    return $result;
 	}
 
 	/**
@@ -141,5 +128,24 @@ class PromocionUsuario extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	
+	
+	public function getStatusLiteral($status)
+	{
+	    $result = "";
+	    switch ($status) {
+	        case 0:
+	            $result = "Pendiente";
+	            break;
+	        case 1:
+	            $result = "Comprado";
+	            break;
+	        default:
+	            $result = "Cancelado";
+	    }
+	    
+	    return $result;
 	}
 }

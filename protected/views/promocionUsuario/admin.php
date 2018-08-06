@@ -24,10 +24,13 @@ Yii::app()->clientScript->registerScript('search', "
                 <div class="row">
                 	<div class="col-xs-6 col-sm-3 m-b-30">
                         <div class="btn-group">
+                        	&nbsp;
+                            <!-- 
                             <a href="#" class="btn btn-primary waves-effect">
                             	<i class="fa fa-envelope-o" aria-hidden="true"></i>
                             	Alerta
-                            </a>                              
+                            </a> 
+                             -->                             
                         </div>
                     </div>
                 </div>

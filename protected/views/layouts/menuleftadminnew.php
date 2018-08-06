@@ -66,6 +66,7 @@
                     <ul class="list-unstyled">
                         <li><a href="<?php echo Yii::app()->createUrl("/Suscripciones/admin");?>">Suscripciones</a></li>
                         <li><a href="<?php echo Yii::app()->createUrl("/PromocionUsuario/admin");?>">Promociones Usuarios</a></li>
+                        <li><a href="<?php echo Yii::app()->createUrl("/Contactanos/admin");?>">Mensajes de Contacto</a></li>
                     </ul>
                 </li>
                 

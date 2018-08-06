@@ -68,7 +68,7 @@ Yii::app()->clientScript->registerScript('detalles', "
                 if(_res.status)
                 {
                     swal(_res.mensaje); 
-                    //location.reload();
+                    location.reload();
                 }
                 else
                 {
@@ -162,6 +162,8 @@ Yii::app()->clientScript->registerScript('detalles', "
                         <dd class="col-sm-8"><?php echo $model->total_millas;?></dd>
                         <dt class="col-sm-4">Monto total:</dt>
                         <dd class="col-sm-8"><?php echo $model->monto_total;?></dd>
+                        <dt class="col-sm-4">Código Agencia:</dt>
+                        <dd class="col-sm-8"><?php echo $model->codigo_agencia."&nbsp;";?></dd>
                         <dt class="col-sm-4">Estatus:</dt>
                         <dd class="col-sm-8"><?php echo $model->getStatusLiteral($model->status);?></dd>
                     </dl>
@@ -181,10 +183,10 @@ Yii::app()->clientScript->registerScript('detalles', "
                                 <thead>
                                 <tr>
                                   <th>Nro Cuotas</th>
-                                  <th>Cupón</th>
                                   <th>Reference Id</th>
                                   <th>Código Pago</th>
-                                  <th>Fecha Pago</th>
+                                  <th>Vencimiento 1</th>
+                                  <th>Vencimiento 2</th>
                                   <th></th>
                                 </tr>
                                 </thead>
@@ -200,10 +202,10 @@ Yii::app()->clientScript->registerScript('detalles', "
                                 	?>
                                 	<tr>
                                 		<td><?php echo $i;?></td>
-                                		<td><?php echo $value->cod_cupon;?></td>
                                 		<td><?php echo $value->reference_id;?></td>
                                 		<td><?php echo $value->cod_pago;?></td>
                                 		<td><?php echo date("d-m-Y", strtotime($value->fecha_pago));?></td>
+                                		<td><?php echo date("d-m-Y", strtotime($value->fecha_pago2));?></td>
                                 		<td>
                                 			<?php 
                                 			if($value->status != 1):

@@ -99,6 +99,7 @@ Yii::app()->clientScript->registerScript('suscripciones', "
                                   <th>email</th>
                                   <th>Fecha Registro</th>
                                   <th>Estatus</th>
+                                  <th class="sortingdisabled"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,6 +111,11 @@ Yii::app()->clientScript->registerScript('suscripciones', "
                                   <td><?php echo $value->email;?></td>
                                   <td><?php echo $value->fecha_registro;?></td>
                   				  <td><?php echo ($value->status == 1)? 'Activo' : 'Inactivo';?></td>
+                                  <td>
+                                  	<a href="<?php echo Yii::app()->createUrl('Suscripciones/Update',array('id'=>$value->id));?>" class="btn btn-default" data-action="U" data-id="<?php echo $value->id;?>" >
+                                  		<i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                  	</a>
+                                  </td>
                                 </tr>
                             <?php                             
                             endforeach;
